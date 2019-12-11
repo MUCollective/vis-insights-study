@@ -1,0 +1,105 @@
+@font-face {
+	font-family: kepler-b;
+	src: url(kepler-std/KeplerStd-BoldCapt.otf);
+}
+
+@font-face {
+	font-family: kepler-bb;
+	src: url(kepler-std/KeplerStd-BoldCapt.otf);
+}
+
+@font-face {
+	font-family: AvenirNext-Bold;
+	src: url(avenir/AvenirNext-Bold-01.ttf);
+}
+
+@font-face {
+	font-family: AvenirNext-DemiBold;
+	src: url(avenir/AvenirNext-DemiBold-03.ttf);
+}
+
+@font-face {
+	font-family: AvenirNext-Medium;
+	src: url(avenir/AvenirNext-Medium-06.ttf);
+}
+
+@font-face {
+	font-family: AvenirNext-Regular;
+	src: url(avenir/AvenirNext-Regular-08.ttf);
+}
+
+.question-container {
+	padding: 4px;
+	margin: 20px 0px;
+}
+
+.question-graphic {
+	max-width: 100%;
+}
+
+.selected {
+	background: #3CA8FF; 
+}
+
+.btn-container {
+	text-align: center;
+}
+
+.btn {
+	min-width: 144px;
+	/*height: 40px;*/
+	line-height: 18px;
+	font-size: 18px;
+	background: steelblue;
+	color: #fff;
+	border-radius: 8px;
+	margin: 40px 0px;
+	font-family: 'AvenirNext-Medium';
+	padding: 12px 0px;
+}
+
+p {
+	margin: 24px 0px;
+	font-family: 'AvenirNext-Medium';
+	font-size: 1.25em;
+	line-height: 1.5em;
+}
+
+h2 {
+	margin: 24px 0px;
+	font-family: 'kepler-b';
+	font-size: 3.6em;
+}
+
+h3 {
+	margin: 24px 0px;
+	font-family: 'kepler-b';
+	font-size: 2.4em;
+}
+
+.margin-top-lg{
+	margin-top: 120px;
+}
+
+.margin-btm-lg{
+	margin-bottom: 120px;
+}
+
+.margin-top-md{
+	margin-top: 64px;
+}
+
+.margin-btm-md{
+	margin-bottom: 64px;
+}
+
+#mturk-code {
+	margin: 0px;
+}
+
+.code-container {
+	padding: 8px;
+	background-color: #cccccc;
+	border-radius: 4px;
+	text-align: center;
+}

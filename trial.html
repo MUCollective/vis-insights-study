@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Visualization Insights</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom CSS -->
+	<link href="css/custom.css" rel="stylesheet">
+
+	<!-- Custom Fonts -->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	<!-- Custom JavaScript -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/timeme.js"></script>
+
+	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+	<script type="text/javascript">
+		var urlParams = new URLSearchParams(window.location.search);
+
+		var guid = urlParams.get('guid');
+		var mod = urlParams.get('modulo');
+		var conditions = urlParams.get('cond').split(",");
+
+		// TimeMe.initialize({
+		// 	currentPageName: "trial-1", // current page
+		// 	idleTimeoutInSeconds: 120, // stop recording time due to inactivity
+		// });
+	</script>
+</head>
+<body>
+	<div class="row">
+		<div class="container-fluid">
+			<div class="col-sm-10 col-sm-offset-1">
+				<div class="row">
+					<div class="col-lg-10 col-lg-offset-1">
+						<h3 class="margin-top-md">Visualization Insights study</h3>
+						<p>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. You want to find out if the stores are making a profit in each region. However, you only have the data for 10 randomly selected stores from the 200 stores in each region.</p>
+
+						<p>Below, we show the profit for these 10 stores. Indicate which of these regions are making a profit.</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
+						<div class = "question-container" id = "opt-1"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-2"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-3"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-4"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-5"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
+						<div class = "question-container" id = "opt-6"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-7"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-8"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-9"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-10"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class = "row">
+		<div class="container">
+			<div class="btn-container">
+				<div class="btn" id="submit-btn">Submit</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	function shuffle(array) {
+		var n = array.length, t, i;
+		while (n) {
+			i = Math.random() * n-- | 0;
+			t = array[n];
+			array[n] = array[i];
+			array[i] = t;
+		}
+		return array;
+	}
+
+	var selected = [];
+	var n = 30;
+	var b = [...Array(n).keys()].map( i => ++i );
+	var trial_order = b.map( i => (i * mod) % (n+1));
+	var i_condition = null;
+	var trial_idx = null;
+	var i_sd = null;
+	var img_order = shuffle([...Array(10).keys()].map( i => ++i ));
+	// var i_level = Math.floor(Math.random() * levels.length);
+
+	var trial_count_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=trial_count&participantID=' + guid + '';
+
+	$.get(trial_count_url, function(data, status) {
+		trial_idx = data;
+		t_idx = trial_idx % n
+		i_condition = Math.floor(trial_idx / n);
+
+		url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/"+ conditions[i_condition] +"/profits-t"+ trial_order[t_idx] + "-p";
+
+		$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[0] + ".png");
+		$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[1] + ".png");
+		$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[2] + ".png");
+		$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[3] + ".png");
+		$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[4] + ".png");
+		$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[5] + ".png");
+		$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[6] + ".png");
+		$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[7] + ".png");
+		$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[8] + ".png");
+		$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[9] + ".png");
+
+	});
+
+	$(function() {
+		$('.question-container').hover(function() {
+			$(this).css('background', '#3CA8FF');
+		}, function() {
+			// on mouseout, reset the background colour
+			$(this).css('background', '');
+		});
+	});
+
+	$(".question-container").click(function () {
+		$(this).toggleClass("selected");
+		var id_str = $(this).children().attr("src").split("-");
+		var id = id_str[id_str.length - 1].split(".")[0];
+
+		if (!selected.includes(id)) {
+			selected.push(id);
+		} else {
+			var index = selected.indexOf(id);
+			if (index !== -1) selected.splice(index, 1);
+		}
+	});
+
+	$("div#submit-btn").on('click', submitResponse);
+
+	// send response to DB
+	function submitResponse() {
+		// uses global value for 'selected'
+		// Time spent on page
+		var t = TimeMe.getTimeOnCurrentPageInSeconds();
+		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&participantID='+guid+'&responses='+selected.toString()+'&cond='+conditions[i_condition]+'&trial_index='+trial_idx+'&trial='+trial_order[t_idx]+'';
+
+		$.get(submit_response_url).done(function (data) {
+			// console.log(data);
+			if (trial_idx >= (conditions.length * n - 1)){
+				console.log("HI!");
+				window.location.href = 'exit.html?guid='+guid+'';
+			} else {
+				window.location.href = 'trial.html?guid='+guid+'&modulo='+mod+'&trial='+(trial_idx+1)+'&cond='+conditions+'';
+			}			
+		});
+	}
+</script>
+</html>
+

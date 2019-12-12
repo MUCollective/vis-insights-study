@@ -35,9 +35,8 @@
 			return array;
 		}
 
-		var vis = ["raw-data", "ci", "halfeye"];
+		var vis = shuffle(["raw-data", "ci", "halfeye"]);
 		var incentives = [0.1, 0.05, 0.01];
-		var sd = shuffle([1, 2, 3]);
 
 		function uuidv4() {
 		return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
@@ -45,14 +44,14 @@
 			)
 		}
 
-		var uuidv1 = function () {
-			// Math.random should be unique because of its seeding algorithm.
-			// Convert it to base 36 (numbers + letters), and grab the first 9 characters
-			// after the decimal.
-			return "RVIR" + Math.random().toString(36).substr(2, 10);
-		};
+		// var uuidv1 = function () {
+		// 	// Math.random should be unique because of its seeding algorithm.
+		// 	// Convert it to base 36 (numbers + letters), and grab the first 9 characters
+		// 	// after the decimal.
+		// 	return "RVIR" + Math.random().toString(36).substr(2, 10);
+		// };
 
-		var guid = uuidv1();
+		// var guid = uuidv1();
 
 		i_vis = Math.floor(Math.random() * vis.length);
 		i_incentive = Math.floor(Math.random() * incentives.length);
@@ -97,7 +96,11 @@
 			idleTimeoutInSeconds: 120 // stop recording time due to inactivity
 		});
 
-		var cond = shuffle(["raw-data", "ci"]); //, "halfeye"]; 
+		var urlParams = new URLSearchParams(window.location.search);
+
+		var prolific_PID = urlParams.get('PROLIFIC_PID');
+		var study_ID = urlParams.get('STUDY_ID');
+		var session_ID = urlParams.get('SESSION_ID');
 	</script>
 </head>
 <body>
@@ -115,17 +118,22 @@
 	<div class = "row">
 		<div class="container">
 			<div class="btn-container">
-				<div class="btn" id="begin-btn">Begin</div>
+				<div class="btn" id="begin-btn">Accept</div>
+				<div class="btn" id="decline-btn">Decline</div>
 			</div>
 		</div>
 	</div>	
 </body>
 
 <script type="text/javascript">
-	 var uuid = uuidv4();
-	console.log(uuid);
+	var uuid = uuidv4();
 
 	$("div#begin-btn").on('click', initialiseUser);
+	$("div#decline-btn").on('click', rejectUser);
+
+	function rejectUser() {
+		window.location.href = 'quit.html';
+	}
 
 	// send response to DB
 	function initialiseUser() {
@@ -133,10 +141,10 @@
 		// Time spent on page
 		var t = TimeMe.getTimeOnCurrentPageInSeconds();
 
-		var queryURL = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=new&guid='+guid+'&modulo='+a+'&uuid='+uuid+'';
+		var queryURL = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=new&PROLIFIC_PID='+prolific_PID+'&STUDY_ID='+study_ID+'&SESSION_ID='+session_ID+'&modulo='+a+'&uuid='+uuid+'';
 		
 		$.get(queryURL).done(function (data) {
-			window.location.href = 'trial.html?guid='+guid+'&modulo='+a+'&cond='+cond+'';
+			window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&cond='+vis+'';
 		});
 	}
 </script>

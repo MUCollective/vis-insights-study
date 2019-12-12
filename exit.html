@@ -25,7 +25,7 @@
 	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
 	<script type="text/javascript">
 		var urlParams = new URLSearchParams(window.location.search);
-		var guid = urlParams.get('guid');
+		var prolific_PID = urlParams.get('prolific_PID');
 
 		TimeMe.initialize({
 			currentPageName: "trial-0", // current page
@@ -39,9 +39,12 @@
 			<div class="col-sm-8 col-sm-offset-2">
 				<h2 class="margin-top-lg margin-btm-md">Visualization Insights study</h2>
 				<p>Thank you for completing our study!</p>
-				<p>Please paste the following code into MTurk: <br></p>
+				<p>If prompted, please paste the following code into Prolific: <br></p>
 				<div class="code-container">
 					<p id="mturk-code"></p>
+				</div>
+				<div class="btn-container">
+					<div class="btn" id="submit-final-btn">Submit</div>
 				</div>
 				<p>If you have any questions regarding the study, feel free to email Abhraneel: abhraneel.sarma@northwestern.edu</p>
 			</div>
@@ -50,12 +53,19 @@
 </body>
 
 <script type="text/javascript">
-
-	var queryURL = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=old&guid='+guid+'';
+	console.log(prolific_PID);
+	var queryURL = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=old&PROLIFIC_PID='+prolific_PID+'';
 
 	$.get(queryURL, function(data, status) {
 		uuid = data;
+		console.log(uuid);
 		$("p#mturk-code").text(uuid);
 	});
+
+	$("div#submit-final-btn").on('click', acceptUserFinal);
+
+	function acceptUserFinal() {
+		window.location.href = 'https://app.prolific.co/submissions/complete?cc='+uuid+'';
+	}
 </script>
 </html>

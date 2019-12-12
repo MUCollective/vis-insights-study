@@ -50,12 +50,44 @@
 	/*height: 40px;*/
 	line-height: 18px;
 	font-size: 18px;
-	background: steelblue;
+	background: #467FEB;
 	color: #fff;
+	border: 2px #467FEB solid;
 	border-radius: 8px;
-	margin: 40px 0px;
+	margin: 40px 40px;
 	font-family: 'AvenirNext-Medium';
 	padding: 12px 0px;
+	display: inline-block;
+}
+
+#begin-btn:hover,
+#begin-btn:focus,
+#begin-btn:active {
+	background: #2E5399;
+	border: 2px #2E5399 solid;
+	color: #fff;
+}
+
+#submit-btn:hover,
+#submit-btn:focus,
+#submit-btn:active {
+	background: #2E5399;
+	border: 2px #2E5399 solid;
+	color: #fff;
+}
+
+#decline-btn {
+	background: #fff;
+	border: 2px #C42931 solid;
+	color: #C42931;
+}
+
+#decline-btn:hover,
+#decline-btn:focus,
+#decline-btn:active {
+	background: #C42931;
+	border: 2px #C42931 solid;
+	color: #fff;
 }
 
 p {

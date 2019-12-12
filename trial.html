@@ -26,7 +26,8 @@
 	<script type="text/javascript">
 		var urlParams = new URLSearchParams(window.location.search);
 
-		var guid = urlParams.get('guid');
+		var prolific_PID = urlParams.get('PROLIFIC_PID');
+		var session_ID = urlParams.get('SESSION_ID');
 		var mod = urlParams.get('modulo');
 		var conditions = urlParams.get('cond').split(",");
 
@@ -113,7 +114,7 @@
 	var img_order = shuffle([...Array(10).keys()].map( i => ++i ));
 	// var i_level = Math.floor(Math.random() * levels.length);
 
-	var trial_count_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=trial_count&participantID=' + guid + '';
+	var trial_count_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=trial_count&PROLIFIC_PID=' + prolific_PID + '&SESSION_ID=' + session_ID + '';
 
 	$.get(trial_count_url, function(data, status) {
 		trial_idx = data;
@@ -164,7 +165,7 @@
 		// uses global value for 'selected'
 		// Time spent on page
 		var t = TimeMe.getTimeOnCurrentPageInSeconds();
-		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&participantID='+guid+'&responses='+selected.toString()+'&cond='+conditions[i_condition]+'&trial_index='+trial_idx+'&trial='+trial_order[t_idx]+'';
+		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&cond='+conditions[i_condition]+'&trial_index='+trial_idx+'&trial='+trial_order[t_idx]+'';
 
 		$.get(submit_response_url).done(function (data) {
 			// console.log(data);
@@ -172,7 +173,7 @@
 				console.log("HI!");
 				window.location.href = 'exit.html?guid='+guid+'';
 			} else {
-				window.location.href = 'trial.html?guid='+guid+'&modulo='+mod+'&trial='+(trial_idx+1)+'&cond='+conditions+'';
+				window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&trial='+(trial_idx+1)+'&cond='+conditions+'';
 			}			
 		});
 	}

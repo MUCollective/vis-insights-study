@@ -29,12 +29,15 @@
 		var prolific_PID = urlParams.get('PROLIFIC_PID');
 		var session_ID = urlParams.get('SESSION_ID');
 		var mod = urlParams.get('modulo');
-		var conditions = urlParams.get('cond').split(",");
+		var conditions = urlParams.get('vis').split(",");
+		var incentives = urlParams.get('alpha').split(",");
+		var payout = parseFloat(urlParams.get('out'));
+		var result = JSON.parse(urlParams.get('result'));
 
-		// TimeMe.initialize({
-		// 	currentPageName: "trial-1", // current page
-		// 	idleTimeoutInSeconds: 120, // stop recording time due to inactivity
-		// });
+		TimeMe.initialize({
+			currentPageName: "trial-1", // current page
+			idleTimeoutInSeconds: 120, // stop recording time due to inactivity
+		});
 	</script>
 </head>
 <body>
@@ -44,9 +47,15 @@
 				<div class="row">
 					<div class="col-lg-10 col-lg-offset-1">
 						<h3 class="margin-top-md">Visualization Insights study</h3>
-						<p>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. You want to find out if the stores are making a profit in each region. However, you only have the data for 10 randomly selected stores from the 200 stores in each region.</p>
+						<p>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. You want to find out if the stores are making a profit in each region. However, you only have the data for 10 randomly selected stores from the 200 stores in each region. Below, we show the profit for these 10 stores. Click on which of these regions are making a profit. You can click on multiple stores.</p>
 
-						<p>Below, we show the profit for these 10 stores. Indicate which of these regions are making a profit.</p>
+						<p><span id="result-prev">Results of previous round: NA</span><br>
+						<span id="payoff">Total Payoff: 0</span></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col=lg=10 col-sm-offset-1">
+						<p><span id="trial_count"></span></p>
 					</div>
 				</div>
 				<div class="row">
@@ -81,13 +90,24 @@
 						<div class = "question-container" id = "opt-10"></div>
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
-	<div class = "row">
-		<div class="container">
-			<div class="btn-container">
-				<div class="btn" id="submit-btn">Submit</div>
+				<div class="row">
+					<div class="btn-container">
+						<div class="btn" id="submit-btn">Submit</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-10 col-lg-offset-1">
+						<h4>Reward structure</h4>
+						<p>By clicking on a region, you indicate that you think the region has a profit greater than zero.</p>
+						<ul>
+							<li>If you <b>click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive a bonus of $0.02. This is a <i>True Positive</i>.</li>
+							<li>If you <b>click</b> on a region, and that region <b>does not</b> have a profit greater than zero, on average, you will receive a penalty of <span id="fp-val">-$0.38</span>. This is a <i>False Positive</i>.</li>
+							<li>If you <b>do not click</b> on a region, and that region <b>does not</b> have a profit greater than zero on average, you will receive a bonus of $0.02. This is a <i>True Negative</i>.</li>
+							<li>If you <b>do not click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive a penalty of -$0.02. This is a <i>False Negative</i>.</li>
+						</ul>
+						<p>Thus your goal is to maximise the number of True Positives and True Negatives.</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -108,7 +128,7 @@
 	var n = 30;
 	var b = [...Array(n).keys()].map( i => ++i );
 	var trial_order = b.map( i => (i * mod) % (n+1));
-	var i_condition = null;
+	var index = null;
 	var trial_idx = null;
 	var i_sd = null;
 	var img_order = shuffle([...Array(10).keys()].map( i => ++i ));
@@ -118,10 +138,23 @@
 
 	$.get(trial_count_url, function(data, status) {
 		trial_idx = data;
-		t_idx = trial_idx % n
-		i_condition = Math.floor(trial_idx / n);
 
-		url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/"+ conditions[i_condition] +"/profits-t"+ trial_order[t_idx] + "-p";
+		t_idx = trial_idx % n;
+		index = Math.floor(trial_idx / n);
+		alpha = parseInt(incentives[index])/100;
+
+		$("span#fp-val").text("-$" + Math.round(((1-alpha)/alpha) * 2) / 100);
+
+		if (trial_idx > 0 & result != null) {
+			result_str = "<i>Previous trial:</i> True Positive: " + result['tp'] + ", True Negative: " + result['tn'] + ", False Positive: " + result['fp'] + ", False Negative: " + result['fn'];
+
+			payout += Math.round((result['tp'] * 0.02 + result['tn'] * 0.02 + (result['fp'] * Math.round(((1-alpha)/alpha) * 2) / 100) + result['fn'] * 0.02)*100)/100;	
+
+			$("span#result-prev").html(result_str);
+		}
+		$("span#payoff").html("<i>Total Payout:</i> " + payout);
+
+		url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/"+ conditions[index] +"/profits-t"+ trial_order[t_idx] + "-p";
 
 		$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[0] + ".png");
 		$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[1] + ".png");
@@ -153,8 +186,8 @@
 		if (!selected.includes(id)) {
 			selected.push(id);
 		} else {
-			var index = selected.indexOf(id);
-			if (index !== -1) selected.splice(index, 1);
+			var idx = selected.indexOf(id);
+			if (idx !== -1) selected.splice(idx, 1);
 		}
 	});
 
@@ -164,17 +197,19 @@
 	function submitResponse() {
 		// uses global value for 'selected'
 		// Time spent on page
-		var t = TimeMe.getTimeOnCurrentPageInSeconds();
-		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&cond='+conditions[i_condition]+'&trial_index='+trial_idx+'&trial='+trial_order[t_idx]+'';
+		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
+		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
 
 		$.get(submit_response_url).done(function (data) {
-			// console.log(data);
 			if (trial_idx >= (conditions.length * n - 1)){
-				console.log("HI!");
-				window.location.href = 'exit.html?guid='+guid+'';
+				window.location.href = 'questionnaire.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
 			} else {
-				window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&trial='+(trial_idx+1)+'&cond='+conditions+'';
-			}			
+				if (((trial_idx + 1) % n) == 0) {
+					window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&out='+payout+'';
+				} else {
+					window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&out='+payout+'&result='+JSON.stringify(data)+'';
+				}
+			}	
 		});
 	}
 </script>

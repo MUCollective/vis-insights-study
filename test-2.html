@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Visualization Insights</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom CSS -->
+	<link href="css/custom.css" rel="stylesheet">
+
+	<!-- Custom Fonts -->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	<!-- Custom JavaScript -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/timeme.js"></script>
+
+	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+	<script type="text/javascript">
+		var urlParams = new URLSearchParams(window.location.search);
+
+		var prolific_PID = urlParams.get('PROLIFIC_PID');
+		var session_ID = urlParams.get('SESSION_ID');
+		var mod = urlParams.get('modulo');
+		var conditions = urlParams.get('vis').split(",");
+		var incentives = urlParams.get('alpha').split(",");
+		var selected = urlParams.get('selected').split(",");
+
+		TimeMe.initialize({
+			currentPageName: "test-2", // current page
+			idleTimeoutInSeconds: 120, // stop recording time due to inactivity
+		});
+	</script>
+</head>
+<body>
+	<div class="row">
+		<div class="container-fluid">
+			<div class="col-sm-10 col-sm-offset-1">
+				<div class="row">
+					<div class="col-lg-10 col-lg-offset-1">
+						<h3 class="margin-top-md">Visualization Insights study</h3>
+						<p id="trial-answers">Your answers: </p>
+
+						<!-- Mention that just because something is winning in the sample, does not mean that it is actually wininng in the population. -->
+
+						<p>Correct answers: 2,3,5,9 (highlighted)</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
+						<div class = "question-container" id = "opt-1"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-2"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-3"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-4"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-5"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
+						<div class = "question-container" id = "opt-6"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-7"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-8"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-9"></div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-10"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class = "row">
+		<div class="container">
+			<div class="btn-container">
+				<p>Clicking the button below will begin the study</p>
+				<div class="btn" id="submit-btn">Proceed</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	var img_order = [...Array(10).keys()].map(i => ++i);
+	$("p#trial-answers").text("Your answers: " + selected);
+
+	url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/example/profits-sol-t0-p0.5-";
+
+	$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url + img_order[0] + ".png");
+	$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url + img_order[1] + ".png");
+	$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url + img_order[2] + ".png");
+	$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url + img_order[3] + ".png");
+	$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url + img_order[4] + ".png");
+	$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url + img_order[5] + ".png");
+	$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url + img_order[6] + ".png");
+	$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url + img_order[7] + ".png");
+	$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url + img_order[8] + ".png");
+	$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + img_order[9] + ".png");
+
+	$("div#opt-2").addClass("selected");
+	$("div#opt-3").addClass("selected");
+	$("div#opt-5").addClass("selected");
+	$("div#opt-9").addClass("selected");
+
+
+	var n = 30;
+	var index = null;
+	var trial_idx = null;
+	var i_sd = null;
+
+	$("div#submit-btn").on('click', submitResponse);
+
+	var trial_count_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=trial_count&PROLIFIC_PID=' + prolific_PID + '&SESSION_ID=' + session_ID + '';
+
+	$.get(trial_count_url, function(data, status) {
+		trial_idx = data;
+		index = Math.floor(trial_idx / n);
+	});
+
+	// send response to DB
+	function submitResponse() {
+		// uses global value for 'selected'
+		// Time spent on page
+		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
+
+		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis=null&alpha=null&trial=0.3&t='+t+'';
+
+
+		$.get(submit_response_url).done(function (data) {
+			if (trial_idx >= (conditions.length * n - 1)){
+				window.location.href = 'exit.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
+			} else {
+				if ((trial_idx % n) == 0) {
+					window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
+				} else {
+					window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&trial='+(trial_idx+1)+'&vis='+conditions+'&alpha='+incentives+'';
+				}
+			}
+		});
+
+		
+	}
+</script>
+</html>
+

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Visualization Insights</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom CSS -->
+	<link href="css/custom.css" rel="stylesheet">
+
+	<!-- Custom Fonts -->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	<!-- Custom JavaScript -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/timeme.js"></script>
+
+	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+	<script type="text/javascript">
+		var urlParams = new URLSearchParams(window.location.search);
+
+		var prolific_PID = urlParams.get('PROLIFIC_PID');
+		var session_ID = urlParams.get('SESSION_ID');
+		var mod = urlParams.get('modulo');
+		var conditions = urlParams.get('vis').split(",");
+		var incentives = urlParams.get('alpha').split(",");
+		var payout = urlParams.get('out');
+
+		if (payout == null) {
+			payout = 0;
+		}
+
+		TimeMe.initialize({
+			currentPageName: "trial-1", // current page
+			idleTimeoutInSeconds: 120, // stop recording time due to inactivity
+		});
+	</script>
+</head>
+<body>
+	<div class="row">
+		<div class="container-fluid">
+			<div class="col-sm-10 col-sm-offset-1">
+				<div class="row">
+					<div class="col-lg-10 col-lg-offset-1">
+						<h3 class="margin-top-md">Visualization Insights study</h3>
+						<p>This is the first block of trials. Each block will consist of 30 trials.</p><br>
+					</div>
+					<div class="col-lg-10 col-lg-offset-1">
+						<div class="condition-intro" id="ci">
+							<p>In this block, we will present the mean, and the 95% confidence interval for the mean of the sample of 20 stores.</p>
+							<img src="">
+						</div>
+					</div>
+					<div class="col-lg-10 col-lg-offset-1">
+						<div class="condition-intro" id="raw-data">
+							<p>In this block, we will present the mean of the sample of 20 stores.</p>
+							<img src="">
+						</div>
+					</div>
+					<div class="col-lg-10 col-lg-offset-1">
+						<div class="condition-intro" id="halfeye">
+							<p>In this block, we will present the mean, the 95% confidence interval, and the probability density function for the mean of the sample of 20 stores.</p>
+							<img src="">
+						</div>
+					</div>
+					<div class="col-lg-10 col-lg-offset-1">
+						<h4>Reward structure</h4>
+						<p>Please read the incentive structure carefully as it will change for every block of trial</p>
+						<ul>
+							<li>If you <b>click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive a bonus of <span class="highlight">$0.02</span>. This is a <i>True Positive</i>.</li>
+							<li>If you <b>click</b> on a region, and that region <b>does not</b> have a profit greater than zero, on average, you will receive a penalty of <span class="highlight" id="fp-val">-$0.38</span>. This is a <i>False Positive</i>.</li>
+							<li>If you <b>do not click</b> on a region, and that region <b>does not</b> have a profit greater than zero on average, you will receive a bonus of <span class="highlight">$0.02</span>. This is a <i>True Negative</i>.</li>
+							<li>If you <b>do not click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive a penalty of <span class="highlight">-$0.02</span>. This is a <i>False Negative</i>.</li>
+						</ul>
+						<p>Thus your goal is to maximise the number of True Positives and True Negatives.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class = "row">
+		<div class="container">
+			<div class="btn-container">
+				<div class="btn" id="submit-btn">Proceed</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	var selected = [];
+	var n = 30;
+	var index = null;
+	var trial_idx = null;
+	var i_sd = null;
+
+	var trial_count_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=trial_count&PROLIFIC_PID=' + prolific_PID + '&SESSION_ID=' + session_ID + '';
+
+	$.get(trial_count_url, function(data, status) {
+		trial_idx = data;
+		t_idx = trial_idx % n;
+		index = Math.floor(trial_idx / n);
+		cond = conditions[index];
+		alpha = parseInt(incentives[index])/100;
+
+		$("span#fp-val").text("-$" + Math.round(((1-alpha)/alpha) * 2) / 100);
+		$("div#"+cond).show();
+	});
+
+	$("div#submit-btn").on('click', submitResponse);
+
+	// send response to DB
+	function submitResponse() {
+		// uses global value for 'selected'
+		// Time spent on page
+		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
+
+		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis=null&alpha=null&trial=0.4&t='+t+'';
+
+		$.get(submit_response_url).done(function (data) {
+			if (trial_idx >= (conditions.length * n - 1)){
+				window.location.href = 'exit.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
+			} else {
+				window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&out='+payout+'';
+			}
+		});		
+	}
+</script>
+</html>
+

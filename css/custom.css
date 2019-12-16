@@ -43,6 +43,7 @@
 
 .btn-container {
 	text-align: center;
+	margin: 40px 0px;
 }
 
 .btn {
@@ -54,7 +55,7 @@
 	color: #fff;
 	border: 2px #467FEB solid;
 	border-radius: 8px;
-	margin: 40px 40px;
+	margin: 12px 40px;
 	font-family: 'AvenirNext-Medium';
 	padding: 12px 0px;
 	display: inline-block;
@@ -90,8 +91,7 @@
 	color: #fff;
 }
 
-p {
-	margin: 24px 0px;
+p, li, label {
 	font-family: 'AvenirNext-Medium';
 	font-size: 1.25em;
 	line-height: 1.5em;
@@ -107,6 +107,11 @@ h3 {
 	margin: 24px 0px;
 	font-family: 'kepler-b';
 	font-size: 2.4em;
+}
+
+h4 {
+	font-family: 'kepler-b';
+	font-size: 1.8em;
 }
 
 .margin-top-lg{
@@ -134,4 +139,20 @@ h3 {
 	background-color: #cccccc;
 	border-radius: 4px;
 	text-align: center;
+}
+
+.col-lg-2, .col-sm-3 {
+	padding-left: 5px !important;
+	padding-right: 5px !important;
+}
+
+.highlight {
+	background-color: #C0352A;
+	color: #fff;
+	padding: 0px 8px;
+}
+
+.condition-intro {
+	display: none;
+	/*visibility: none*/
 }

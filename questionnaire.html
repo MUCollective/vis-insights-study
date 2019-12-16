@@ -36,13 +36,25 @@
 		}
 
 		var vis = shuffle(["raw-data", "ci", "halfeye"]);
-		var alpha = shuffle(["10", "5", "1"]);
+		var incentives = [0.1, 0.05, 0.01];
 
 		function uuidv4() {
 		return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
 				(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
 			)
 		}
+
+		// var uuidv1 = function () {
+		// 	// Math.random should be unique because of its seeding algorithm.
+		// 	// Convert it to base 36 (numbers + letters), and grab the first 9 characters
+		// 	// after the decimal.
+		// 	return "RVIR" + Math.random().toString(36).substr(2, 10);
+		// };
+
+		// var guid = uuidv1();
+
+		i_vis = Math.floor(Math.random() * vis.length);
+		i_incentive = Math.floor(Math.random() * incentives.length);
 
 
 		function __gcd(a, b){
@@ -80,7 +92,7 @@
 		var trial_order = b.map( i => (i * a) % 31);
 
 		TimeMe.initialize({
-			currentPageName: "trial-0.0", // current page
+			currentPageName: "trial-0", // current page
 			idleTimeoutInSeconds: 120 // stop recording time due to inactivity
 		});
 
@@ -96,52 +108,63 @@
 		<div class="container">
 			<div class="col-sm-8 col-sm-offset-2">
 				<h2 class="margin-top-lg margin-btm-md">Visualization Insights study</h2>
-				<p>Welcome. Thank you for choosing to participate in this study!</p>
-				<p>This study will consist of 90 trials (rounds) in total. The trials will be divided into three blocks (of 30 trials each). We will introduce the visualizations used and any changes to your task before each block. Please read these instructions carefully as it will change for every block of trial.</p>
-				<p>In each trial, we will show you 10 graphs. Your goal is to identify the regions where your company is making a profit on average, from these graphs. Each region has 200 stores, but we only have the data for a randomly selected sample of 20 stores from each region.</p>
-				<p>We estimate each trial to take approximately 30 seconds. So the entire study will take approximately 45 mins. If you want to quit, please click on the exit button that will appear on each trial page, and you will be compensated for the number of trials that you've completed.</p>
-				<p>Note: <i>we do not save your progress, so please do not close this tab!</i></p>
+				<p>This is the final page. Please answer the following open-ended questions.</p>
+				<form id="open_q">
+					<div class="form-group">
+						<label for="q1">Please describe the strategy you used in the task</label>
+						<textarea class="form-control" id="q1" rows="3"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="q2">Please describe any problems encountered with the interface</label>
+						<textarea class="form-control" id="q2" rows="3"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="q3">Please describe any problems that you had in understanding the task or any other aspect of the study</label>
+						<textarea class="form-control" id="q3" rows="3"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="q4">Did you feel that the study was too long?</label>
+						<textarea class="form-control" id="q4" rows="3"></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
 			</div>
 		</div>
 	</div>
-	<div class = "row">
+	<!-- <div class = "row">
 		<div class="container">
 			<div class="btn-container">
 				<div class="btn" id="begin-btn">Accept</div>
-				<div class="btn" id="decline-btn">Decline</div>
 			</div>
 		</div>
-	</div>	
+	</div> -->
 </body>
 
 <script type="text/javascript">
-	var uuid = uuidv4();
+	var inputs = null;
+	var values = {};
 
-	$("div#begin-btn").on('click', initialiseUser);
-	$("div#decline-btn").on('click', rejectUser);
-
-	function rejectUser() {
-		window.location.href = 'quit.html';
-	}
+	$('#open_q').submit(function() {
+	// get all the inputs into an array.
+		inputs = $(':input');
+		inputs.each(function() {
+			values[this.id] = $(this).val();
+		});
+		
+		console.log(values);
+		return false;
+	});
 
 	// send response to DB
-	function initialiseUser() {
-		// uses global value for 'selected'
-		// Time spent on page
-		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
+	// function submitResponse() {
+	// 	// uses global value for 'selected'
+	// 	// Time spent on page
+	// 	var t = TimeMe.getTimeOnCurrentPageInSeconds();
+	// 	var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&cond='+conditions[i_condition]+'&trial_index='+trial_idx+'&trial='+trial_order[t_idx]+'';
 
-		var queryURL = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=new&PROLIFIC_PID='+prolific_PID+'&STUDY_ID='+study_ID+'&SESSION_ID='+session_ID+'&modulo='+a+'&uuid='+uuid+'';
-		
-		$.get(queryURL).done(function (data) {
-			console.log(data);
-			// window.location.href = 'test-1.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&vis='+vis+'&alpha='+alpha+'';
-		});
-
-		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis=null&alpha=null&trial=0.1&t='+t+'';
-
-		$.get(submit_response_url).done(function (data) {
-			window.location.href = 'test-1.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&vis='+vis+'&alpha='+alpha+'';
-		});
-	}
+	// 	$.get(submit_response_url).done(function (data) {
+	// 		window.location.href = 'exit.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
+	// 	});
+	// }
 </script>
 </html>

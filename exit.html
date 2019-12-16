@@ -26,9 +26,10 @@
 	<script type="text/javascript">
 		var urlParams = new URLSearchParams(window.location.search);
 		var prolific_PID = urlParams.get('prolific_PID');
+		var session_ID = urlParams.get('SESSION_ID');
 
 		TimeMe.initialize({
-			currentPageName: "trial-0", // current page
+			currentPageName: "exit", // current page
 			idleTimeoutInSeconds: 120 // stop recording time due to inactivity
 		});
 	</script>

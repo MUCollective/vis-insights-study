@@ -39,6 +39,11 @@
 
 		var prolific_PID = urlParams.get('PROLIFIC_PID');
 		var session_ID = urlParams.get('SESSION_ID');
+
+		TimeMe.initialize({
+			currentPageName: "questionnaire", // current page
+			idleTimeoutInSeconds: 120, // stop recording time due to inactivity
+		});
 	</script>
 </head>
 <body>
@@ -89,13 +94,16 @@
 			values[this.id] = $(this).val();
 		});
 		
-		console.log(values);
+		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
 
-		// $.get(submit_response_url).done(function (data) {
-		// 	window.location.href = 'exit.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
-		// });
+		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=open_responses&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&strategy='+values['q1']+'&problems='+values['q2']+'&understanding='+values['q3']+'&length='+values['q4']+'&t=' + t + '';
 
-		window.location.href = 'exit.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
+		$.get(submit_response_url).done(function (data) {
+			console.log(data)
+			// window.location.href = 'exit.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
+		});
+
+		// window.location.href = 'exit.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
 
 		return false;
 	});
@@ -106,7 +114,6 @@
 	// 	// Time spent on page
 	// 	var t = TimeMe.getTimeOnCurrentPageInSeconds();
 	// 	var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&cond='+conditions[i_condition]+'&trial_index='+trial_idx+'&trial='+trial_order[t_idx]+'';
-
 		
 	// }
 </script>

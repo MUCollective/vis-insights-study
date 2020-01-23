@@ -56,7 +56,7 @@
 
 						<div class="row">
 							<div class="col-sm-12">
-								<p><img class="vis-desc" src="images/ci_calc_plot.png" align="right"/> You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. Your goal is identify the regions that are, on average, making a profit. However, you only have the data for 20 randomly selected stores from the 200 stores in each region. Using statistics, we calculate and show, for these 20 stores, the mean profit (in thousand $) and a range of uncertainty around this estimate of the mean profit (95% confidence interval), along the y-axis.</p><br>
+								<p><img class="vis-desc" src="images/ci_calc_plot.png" align="right"/>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. Your goal is identify the regions that are, on average, making a profit. However, you only have the data for 20 randomly selected stores from the 200 stores in each region. Using statistics, we calculate and show, for these 20 stores, the mean profit (in thousand $) and a range of uncertainty around this estimate of the mean profit (95% confidence interval), along the y-axis.</p><br>
 								<p>Keep in mind that the data shown in each graph is only of a randomly selected sample from a larger dataset. Hence, even if the mean profit for the sample shown in the graph is greater than zero, it may not actually be the case in the actual dataset. Once you submit your answers for this round, we will show you the graphs with the complete dataset, so that you can compare your answers to the actual results in the next screen.</p><br>
 							</div>
 						</div>
@@ -170,8 +170,6 @@
 		// uses global value for 'selected'
 		// Time spent on page
 		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
-
-		// var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis=null&alpha=null&trial=0.2&t='+t+'';
 
 		window.location.href = 'test-2.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&selected='+selected+'';
 	}

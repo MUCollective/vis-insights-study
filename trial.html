@@ -35,7 +35,7 @@
 		// var result = JSON.parse(urlParams.get('result'));
 
 		TimeMe.initialize({
-			currentPageName: "trial-1", // current page
+			currentPageName: "trial", // current page
 			idleTimeoutInSeconds: 120, // stop recording time due to inactivity
 		});
 	</script>
@@ -96,7 +96,8 @@
 				</div>
 				<div class="row">
 					<div class="btn-container">
-						<div class="btn" id="submit-btn">Submit</div>
+						<div class="btn" id="submit-btn">Submit</div><br>
+						<div class="btn-inv" id="submit-none-btn">None of the regions are profitable</div>
 					</div>
 				</div>
 				<div class="row">
@@ -208,25 +209,65 @@
 	});
 
 	$("div#submit-btn").on('click', submitResponse);
+	$("div#submit-none-btn").on('click', submitNoResponse);
 
 	// send response to DB
 	function submitResponse() {
 		// uses global value for 'selected'
 		// Time spent on page
 		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
-		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
 
-		$.get(submit_response_url).done(function (data) {
-			if (trial_idx >= (conditions.length * n - 1)){
-				window.location.href = 'questionnaire.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
-			} else {
-				if (((trial_idx + 1) % n) == 0) {
-					window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
+		if (selected.length > 0){			
+			var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
+
+			$.get(submit_response_url).done(function (data) {
+				if (trial_idx >= (conditions.length * n - 1)){
+					var get_uuid_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
+
+					$.get(get_uuid_url, function(data, status) { 
+						uuid = data;
+
+						window.location.href = 'https://umich.qualtrics.com/jfe/form/SV_0O0FsjvFas9tzKd?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&uuid='+uuid+'';
+					})
 				} else {
-					window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-				}
-			}	
-		});
+					if (((trial_idx + 1) % n) == 0) {
+						window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
+					} else {
+						window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
+					}
+				}	
+			});
+		} else {
+			alert("Please indicate a region as profitable or click on the button marked, 'None of the regions are profitable'")
+		}
+	}
+
+	function submitNoResponse() {
+		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
+
+		if (selected.length == 0){
+			var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
+
+			$.get(submit_response_url).done(function (data) {
+				if (trial_idx >= (conditions.length * n - 1)){
+					var get_uuid_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
+
+					$.get(get_uuid_url, function(data, status) { 
+						uuid = data;
+
+						window.location.href = 'https://umich.qualtrics.com/jfe/form/SV_0O0FsjvFas9tzKd?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&uuid='+uuid+'';
+					})
+				} else {
+					if (((trial_idx + 1) % n) == 0) {
+						window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
+					} else {
+						window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
+					}
+				}	
+			});
+		} else {
+			alert("You have indicated certain regions as profitable. Please click on the submit button")
+		}
 	}
 </script>
 </html>

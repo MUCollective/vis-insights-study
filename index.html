@@ -87,7 +87,7 @@
 		var urlParams = new URLSearchParams(window.location.search);
 
 		var prolific_PID = urlParams.get('PROLIFIC_PID');
-		var study_ID = urlParams.get('STUDY_ID');
+		// var study_ID = urlParams.get('STUDY_ID');
 		var session_ID = urlParams.get('SESSION_ID');
 	</script>
 </head>
@@ -130,18 +130,17 @@
 		// Time spent on page
 		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
 
-		var queryURL = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=new&PROLIFIC_PID='+prolific_PID+'&STUDY_ID='+study_ID+'&SESSION_ID='+session_ID+'&modulo='+a+'&uuid='+uuid+'';
+		var queryURL = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=new&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&uuid='+uuid+'';
 		
 		$.get(queryURL).done(function (data) {
-			console.log(data);
-			// window.location.href = 'test-1.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&vis='+vis+'&alpha='+alpha+'';
-		});
-
-		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis=null&alpha=null&trial=0.1&t='+t+'';
-
-		$.get(submit_response_url).done(function (data) {
 			window.location.href = 'test-1.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&vis='+vis+'&alpha='+alpha+'';
 		});
+
+		// var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis=null&alpha=null&trial=0.1&t='+t+'';
+
+		// $.get(submit_response_url).done(function (data) {
+		// 	window.location.href = 'test-1.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&vis='+vis+'&alpha='+alpha+'';
+		// });
 	}
 </script>
 </html>

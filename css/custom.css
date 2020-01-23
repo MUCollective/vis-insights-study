@@ -61,6 +61,22 @@
 	display: inline-block;
 }
 
+.btn-inv {
+	min-width: 144px;
+	/*height: 40px;*/
+	line-height: 18px;
+	font-size: 18px;
+	background: #fff;
+	color: #467FEB;
+	border: 2px #467FEB solid;
+	border-radius: 8px;
+	margin: 12px 40px;
+	font-family: 'AvenirNext-Medium';
+	padding: 12px 24px;
+	display: inline-block;
+	cursor: pointer;
+}
+
 #begin-btn:hover,
 #begin-btn:focus,
 #begin-btn:active {
@@ -72,6 +88,14 @@
 #submit-btn:hover,
 #submit-btn:focus,
 #submit-btn:active {
+	background: #2E5399;
+	border: 2px #2E5399 solid;
+	color: #fff;
+}
+
+#submit-none-btn:hover,
+#submit-none-btn:focus,
+#submit-none-btn:active {
 	background: #2E5399;
 	border: 2px #2E5399 solid;
 	color: #fff;

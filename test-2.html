@@ -31,7 +31,7 @@
 		var mod = urlParams.get('modulo');
 		var conditions = urlParams.get('vis').split(",");
 		var incentives = urlParams.get('alpha').split(",");
-		var selected = urlParams.get('selected').split(",");
+		var responses = urlParams.get('selected').split(",");
 
 		TimeMe.initialize({
 			currentPageName: "test-2", // current page
@@ -45,12 +45,10 @@
 			<div class="col-sm-10 col-sm-offset-1">
 				<div class="row">
 					<div class="col-lg-10 col-lg-offset-1">
-						<h3 class="margin-top-md">Visualization Insights study</h3>
+						<h2 class="margin-top-md">Visualization Insights study</h2>
 						<p id="trial-answers">Your answers: </p>
-
-						<!-- Mention that just because something is winning in the sample, does not mean that it is actually wininng in the population. -->
-
-						<p>Correct answers: 2,3,5,9 (highlighted)</p>
+						<p>Correct answers: 2,3,5,8 (highlighted)</p>
+						<p><span id="payoff">Total Payoff: 0</span></p>
 					</div>
 				</div>
 				<div class="row">
@@ -99,7 +97,50 @@
 </body>
 <script type="text/javascript">
 	var img_order = [...Array(10).keys()].map(i => ++i);
-	$("p#trial-answers").text("Your answers: " + selected);
+	$("p#trial-answers").text("Your answers: " + responses);
+
+	solution = [2, 3, 5, 8];
+
+	correct = [false, true, true, false, true, false, false, true, false, false];
+	responses = responses.map( i => parseInt(i));
+	non_responses = [];
+	for (var i of Array(10).keys()) {
+		if (!responses.includes(i+1) ) {
+			non_responses.push(i+1);
+		}
+	}
+
+	positives = []
+	negatives = []
+
+	responses.forEach(function (item, index) {
+		if (correct[item - 1] == true) {
+			positives.push(1)
+		} else {
+			positives.push(0)
+		}
+	});
+
+	non_responses.forEach(function (item, index) {
+		if (correct[item - 1] == false) {
+			negatives.push(1)
+		} else {
+			negatives.push(0)
+		}
+	});
+
+	const sum = (accumulator, currentVal) => accumulator + currentVal
+
+	tp = positives.reduce(sum);
+	tn = negatives.reduce(sum);
+	fp = positives.length - tp;
+	fn = negatives.length - tn;
+
+	cumulative_pay = (tp + tn) * 20 - (fp * 380 + fn * 20);
+
+	$("span#payoff").text("Payoff: " + cumulative_pay);
+
+
 
 	url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/example/profits-sol-t0-p0.5-";
 
@@ -117,7 +158,7 @@
 	$("div#opt-2").addClass("selected");
 	$("div#opt-3").addClass("selected");
 	$("div#opt-5").addClass("selected");
-	$("div#opt-9").addClass("selected");
+	$("div#opt-8").addClass("selected");
 
 
 	var n = 30;
@@ -127,35 +168,13 @@
 
 	$("div#submit-btn").on('click', submitResponse);
 
-	var trial_count_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=trial_count&PROLIFIC_PID=' + prolific_PID + '&SESSION_ID=' + session_ID + '';
-
-	$.get(trial_count_url, function(data, status) {
-		trial_idx = data;
-		index = Math.floor(trial_idx / n);
-	});
-
 	// send response to DB
 	function submitResponse() {
 		// uses global value for 'selected'
 		// Time spent on page
 		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
 
-		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis=null&alpha=null&trial=0.3&t='+t+'';
-
-
-		$.get(submit_response_url).done(function (data) {
-			if (trial_idx >= (conditions.length * n - 1)){
-				window.location.href = 'exit.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
-			} else {
-				if ((trial_idx % n) == 0) {
-					window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-				} else {
-					window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&trial='+(trial_idx+1)+'&vis='+conditions+'&alpha='+incentives+'';
-				}
-			}
-		});
-
-		
+		window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
 	}
 </script>
 </html>

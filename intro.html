@@ -49,37 +49,38 @@
 			<div class="col-sm-10 col-sm-offset-1">
 				<div class="row">
 					<div class="col-lg-10 col-lg-offset-1">
-						<h3 class="margin-top-md">Visualization Insights study</h3>
-						<p>This is the first block of trials. Each block will consist of 30 trials.</p><br>
+						<h2 class="margin-top-md">Visualization Insights study</h2>
+						<p>This is the <span id="block-num">first</span> block of trials. Each block consists of 30 trials.</p>
 					</div>
 					<div class="col-lg-10 col-lg-offset-1">
 						<div class="condition-intro" id="ci">
-							<p>In this block, we will present the mean, and the 95% confidence interval for the mean of the sample of 20 stores.</p>
-							<img src="">
+							<p><img class="vis-desc" src="images/ci_calc_plot.png" align="right"/>Using statistics, we calculate and show, for 20 stores which were randomly selected from each region, the mean profit (in thousand $) and a range of uncertainty around this estimate of the mean profit (95% confidence interval), along the y-axis. In this block, each visualization will present the mean and the 95% confidence interval for the mean of the 20 stores.</p>
 						</div>
 					</div>
 					<div class="col-lg-10 col-lg-offset-1">
 						<div class="condition-intro" id="raw-data">
-							<p>In this block, we will present the mean of the sample of 20 stores.</p>
-							<img src="">
+							<p><img class="vis-desc" src="images/rawdata_calc_plot.png" align="right"/>In this block, each visualization will present the profit from 20 stores, which were randomly selected from each region.</p>
 						</div>
 					</div>
 					<div class="col-lg-10 col-lg-offset-1">
 						<div class="condition-intro" id="halfeye">
-							<p>In this block, we will present the mean, the 95% confidence interval, and the probability density function for the mean of the sample of 20 stores.</p>
-							<img src="">
+							<p><img class="vis-desc" src="images/pdf_calc_plot.png" align="right"/>Using statistics, we calculate and show, for 20 stores which were randomly selected from each region, the mean profit (in thousand $) and a range of uncertainty around this estimate of the mean profit (95% confidence interval), along the y-axis. We also show the density --- in the graph, the width corresponds to more likely values of the mean. In this block, each visualization will present the mean, 95% confidence interval and the density, for the mean of the 20 stores.</p>
 						</div>
 					</div>
 					<div class="col-lg-10 col-lg-offset-1">
-						<h4>Reward structure</h4>
-						<p>Please read the incentive structure carefully as it will change for every block of trial</p>
-						<ul>
-							<li>If you <b>click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive a bonus of <span class="highlight">$0.02</span>. This is a <i>True Positive</i>.</li>
-							<li>If you <b>click</b> on a region, and that region <b>does not</b> have a profit greater than zero, on average, you will receive a penalty of <span class="highlight" id="fp-val">-$0.38</span>. This is a <i>False Positive</i>.</li>
-							<li>If you <b>do not click</b> on a region, and that region <b>does not</b> have a profit greater than zero on average, you will receive a bonus of <span class="highlight">$0.02</span>. This is a <i>True Negative</i>.</li>
-							<li>If you <b>do not click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive a penalty of <span class="highlight">-$0.02</span>. This is a <i>False Negative</i>.</li>
-						</ul>
-						<p>Thus your goal is to maximise the number of True Positives and True Negatives.</p>
+						<div class="row">
+							<div class="col-sm-12">
+								<h3>Reward structure</h3>
+								<p><img id="payoff-img" src="images/payoff_5.png" align="right">Please read the incentive structure carefully as it will change for every block of trial
+								<ul>
+									<li>If you <b>click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive 20 points. <!-- This is a <i>True Positive</i>.--></li>
+									<li>If you <b>click</b> on a region, and that region <b>does not</b> have a profit greater than zero, on average, you will lose <span class="highlight" id="fp-val">380 points.</span><!--  This is a <i>False Positive</i>. --></li>
+									<li>If you <b>do not click</b> on a region, and that region <b>does not</b> have a profit greater than zero on average, you will receive 20 points. <!-- This is a <i>True Negative</i>. --></li>
+									<li>If you <b>do not click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will lose 20 points. <!-- This is a <i>False Negative</i>. --></li>
+								</ul>
+								</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -103,13 +104,18 @@
 	var trial_count_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=trial_count&PROLIFIC_PID=' + prolific_PID + '&SESSION_ID=' + session_ID + '';
 
 	$.get(trial_count_url, function(data, status) {
-		trial_idx = data;
+		trial_idx = data['count'];		
 		t_idx = trial_idx % n;
 		index = Math.floor(trial_idx / n);
 		cond = conditions[index];
 		alpha = parseInt(incentives[index])/100;
+		block_id = "first"
+		if (index == 0) {block_id = "first"} else if (index == 1) {block_id = "second"} else { block_id = "third" }
+		$("span#block-num").html(block_id);
 
-		$("span#fp-val").text("-$" + Math.round(((1-alpha)/alpha) * 2) / 100);
+		$("span#fp-val").text("" + Math.round(((1-alpha)/alpha) * 2) * 10 + " points");
+		$("img#payoff-img").attr("src", "images/payoff_"+ (alpha * 100) +".png");
+		$("div.condition-intro").hide();
 		$("div#"+cond).show();
 	});
 

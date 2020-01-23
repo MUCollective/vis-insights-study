@@ -35,71 +35,9 @@
 			return array;
 		}
 
-		var vis = shuffle(["raw-data", "ci", "halfeye"]);
-		var incentives = [0.1, 0.05, 0.01];
-
-		function uuidv4() {
-		return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-				(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-			)
-		}
-
-		// var uuidv1 = function () {
-		// 	// Math.random should be unique because of its seeding algorithm.
-		// 	// Convert it to base 36 (numbers + letters), and grab the first 9 characters
-		// 	// after the decimal.
-		// 	return "RVIR" + Math.random().toString(36).substr(2, 10);
-		// };
-
-		// var guid = uuidv1();
-
-		i_vis = Math.floor(Math.random() * vis.length);
-		i_incentive = Math.floor(Math.random() * incentives.length);
-
-
-		function __gcd(a, b){
-			// Everything divides 0  
-			if (a == 0 || b == 0) {
-				return 0;
-			}
-			// base case 
-			if (a == b) {
-				return a;
-			}
-			// a is greater 
-			if (a > b) {
-				return __gcd(a - b, b);
-			} 
-			return __gcd(a, b - a);
-		}
-
-		// Function to check and print if  
-		// two numbers are co-prime or not  
-		function coprime(b = 31) {
-			a = Math.ceil(Math.random() * 99);
-
-			if ( __gcd(a, b) == 1 && a != 1){
-				return a;
-			}
-			else {
-				return coprime();
-			}
-		}
-
-		a = coprime();
-		n = 30;
-		b = [...Array(n).keys()].map( i => ++i ); //[1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-		var trial_order = b.map( i => (i * a) % 31);
-
-		TimeMe.initialize({
-			currentPageName: "trial-0", // current page
-			idleTimeoutInSeconds: 120 // stop recording time due to inactivity
-		});
-
 		var urlParams = new URLSearchParams(window.location.search);
 
 		var prolific_PID = urlParams.get('PROLIFIC_PID');
-		var study_ID = urlParams.get('STUDY_ID');
 		var session_ID = urlParams.get('SESSION_ID');
 	</script>
 </head>
@@ -152,6 +90,13 @@
 		});
 		
 		console.log(values);
+
+		// $.get(submit_response_url).done(function (data) {
+		// 	window.location.href = 'exit.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
+		// });
+
+		window.location.href = 'exit.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
+
 		return false;
 	});
 
@@ -162,9 +107,7 @@
 	// 	var t = TimeMe.getTimeOnCurrentPageInSeconds();
 	// 	var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&cond='+conditions[i_condition]+'&trial_index='+trial_idx+'&trial='+trial_order[t_idx]+'';
 
-	// 	$.get(submit_response_url).done(function (data) {
-	// 		window.location.href = 'exit.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
-	// 	});
+		
 	// }
 </script>
 </html>

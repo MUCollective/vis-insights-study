@@ -31,8 +31,8 @@
 		var mod = urlParams.get('modulo');
 		var conditions = urlParams.get('vis').split(",");
 		var incentives = urlParams.get('alpha').split(",");
-		var payout = parseFloat(urlParams.get('out'));
-		var result = JSON.parse(urlParams.get('result'));
+		// var payout = parseFloat(urlParams.get('out'));
+		// var result = JSON.parse(urlParams.get('result'));
 
 		TimeMe.initialize({
 			currentPageName: "trial-1", // current page
@@ -47,10 +47,14 @@
 				<div class="row">
 					<div class="col-lg-10 col-lg-offset-1">
 						<h3 class="margin-top-md">Visualization Insights study</h3>
-						<p>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. You want to find out if the stores are making a profit in each region. However, you only have the data for 10 randomly selected stores from the 200 stores in each region. Below, we show the profit for these 10 stores. Click on which of these regions are making a profit. You can click on multiple stores.</p>
+						<p>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. You want to find out if the stores are making a profit in each region. However, you only have the data for 20 randomly selected stores from the 200 stores in each region. Below, we show the profit for these 20 stores. Click on which of these regions are making a profit. You can click on multiple stores.</p>
 
-						<p><span id="result-prev">Results of previous round: NA</span><br>
-						<span id="payoff">Total Payoff: 0</span></p>
+						<h4 class="margin-top-md">Trial No. <span id="trial-num">1</span></h4>
+						<p>
+							<span id="result-prev">Result of previous round: NA</span><br>
+							<span id="payoff-prev">Payoff from previous round: NA</span><br>
+							<span id="payoff">Total Payoff: 0</span>
+						</p>
 					</div>
 				</div>
 				<div class="row">
@@ -97,15 +101,19 @@
 				</div>
 				<div class="row">
 					<div class="col-lg-10 col-lg-offset-1">
-						<h4>Reward structure</h4>
-						<p>By clicking on a region, you indicate that you think the region has a profit greater than zero.</p>
-						<ul>
-							<li>If you <b>click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive a bonus of $0.02. This is a <i>True Positive</i>.</li>
-							<li>If you <b>click</b> on a region, and that region <b>does not</b> have a profit greater than zero, on average, you will receive a penalty of <span id="fp-val">-$0.38</span>. This is a <i>False Positive</i>.</li>
-							<li>If you <b>do not click</b> on a region, and that region <b>does not</b> have a profit greater than zero on average, you will receive a bonus of $0.02. This is a <i>True Negative</i>.</li>
-							<li>If you <b>do not click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive a penalty of -$0.02. This is a <i>False Negative</i>.</li>
-						</ul>
-						<p>Thus your goal is to maximise the number of True Positives and True Negatives.</p>
+						<div class="row">
+							<div class="col-sm-12">
+								<h3>Reward structure</h3>
+								<p><img id="payoff-img" src="images/payoff_5.png" align="right">Please read the incentive structure carefully as it will change for every block of trial
+								<ul>
+									<li>If you <b>click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive 20 points. <!-- This is a <i>True Positive</i>.--></li>
+									<li>If you <b>click</b> on a region, and that region <b>does not</b> have a profit greater than zero, on average, you will lose <span class="highlight" id="fp-val">380 points.</span><!--  This is a <i>False Positive</i>. --></li>
+									<li>If you <b>do not click</b> on a region, and that region <b>does not</b> have a profit greater than zero on average, you will receive 20 points. <!-- This is a <i>True Negative</i>. --></li>
+									<li>If you <b>do not click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will lose 20 points. <!-- This is a <i>False Negative</i>. --></li>
+								</ul>
+								</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -137,22 +145,30 @@
 	var trial_count_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=trial_count&PROLIFIC_PID=' + prolific_PID + '&SESSION_ID=' + session_ID + '';
 
 	$.get(trial_count_url, function(data, status) {
-		trial_idx = data;
+		trial_idx = data['count'];
+		$("span#trial-num").html(trial_idx + 1);
+
+		total_pay = 0;
+		if (trial_idx > 0) {
+			total_pay = data['payout'];
+		}
 
 		t_idx = trial_idx % n;
 		index = Math.floor(trial_idx / n);
 		alpha = parseInt(incentives[index])/100;
 
-		$("span#fp-val").text("-$" + Math.round(((1-alpha)/alpha) * 2) / 100);
+		prev = data['prev'];
+		prev_pay = (prev['tp'] + prev['tn'] + prev['fn']) * 20 + prev['fp'] * Math.round(((1-alpha)/alpha) * 20);
 
-		if (trial_idx > 0 & result != null) {
-			result_str = "<i>Previous trial:</i> True Positive: " + result['tp'] + ", True Negative: " + result['tn'] + ", False Positive: " + result['fp'] + ", False Negative: " + result['fn'];
+		$("span#fp-val").text("" + Math.round(((1-alpha)/alpha) * 20) + " points");
 
-			payout += Math.round((result['tp'] * 0.02 + result['tn'] * 0.02 + (result['fp'] * Math.round(((1-alpha)/alpha) * 2) / 100) + result['fn'] * 0.02)*100)/100;	
+		if (trial_idx > 0 & prev != "NA") {
+			result_str = "<i>Previous trial:</i> True Positive: " + prev['tp'] + ", True Negative: " + prev['tn'] + ", False Positive: " + -1*prev['fp'] + ", False Negative: " + -1*prev['fn'];
 
 			$("span#result-prev").html(result_str);
-		}
-		$("span#payoff").html("<i>Total Payout:</i> " + payout);
+			$("span#payoff-prev").html("<i>Payout from last round: </i>" + prev_pay);
+			$("span#payoff").html("<i>Total Payout:</i> " + total_pay);
+		}		
 
 		url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/"+ conditions[index] +"/profits-t"+ trial_order[t_idx] + "-p";
 
@@ -205,9 +221,9 @@
 				window.location.href = 'questionnaire.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'';
 			} else {
 				if (((trial_idx + 1) % n) == 0) {
-					window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&out='+payout+'';
+					window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
 				} else {
-					window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&out='+payout+'&result='+JSON.stringify(data)+'';
+					window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
 				}
 			}	
 		});

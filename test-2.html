@@ -16,6 +16,7 @@
 
 	<!-- Custom Fonts -->
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 	<!-- Custom JavaScript -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -47,40 +48,70 @@
 					<div class="col-lg-10 col-lg-offset-1">
 						<h2 class="margin-top-md">Visualization Insights study</h2>
 						<p id="trial-answers">Your answers: </p>
-						<p>Correct answers: 2,3,5,8 (highlighted)</p>
+						<!-- <p>Correct answers: 2,3,5,8</p> -->
 						<p><span id="payoff">Total Payoff: 0</span></p>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
-						<div class = "question-container" id = "opt-1"></div>
+						<div class = "question-container" id = "opt-1">
+							<i class="material-icons correct-label" id="correct-1">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-1">cancel</i>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-2"></div>
+						<div class = "question-container" id = "opt-2">
+							<i class="material-icons correct-label" id="correct-2">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-2">cancel</i>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-3"></div>
+						<div class = "question-container" id = "opt-3">
+							<i class="material-icons correct-label" id="correct-3">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-3">cancel</i>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-4"></div>
+						<div class = "question-container" id = "opt-4">
+							<i class="material-icons correct-label" id="correct-4">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-4">cancel</i>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-5"></div>
+						<div class = "question-container" id = "opt-5">
+							<i class="material-icons correct-label" id="correct-5">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-5">cancel</i>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
-						<div class = "question-container" id = "opt-6"></div>
+						<div class = "question-container" id = "opt-6">
+							<i class="material-icons correct-label" id="correct-6">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-6">cancel</i>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-7"></div>
+						<div class = "question-container" id = "opt-7">
+							<i class="material-icons correct-label" id="correct-7">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-7">cancel</i>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-8"></div>
+						<div class = "question-container" id = "opt-8">
+							<i class="material-icons correct-label" id="correct-8">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-8">cancel</i>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-9"></div>
+						<div class = "question-container" id = "opt-9">
+							<i class="material-icons correct-label" id="correct-9">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-9">cancel</i>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-10"></div>
+						<div class = "question-container" id = "opt-10">
+							<i class="material-icons correct-label" id="correct-10">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-10">cancel</i>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -97,11 +128,9 @@
 </body>
 <script type="text/javascript">
 	var img_order = [...Array(10).keys()].map(i => ++i);
-	$("p#trial-answers").text("Your answers: " + responses);
+	$("p#trial-answers").text("Your answers: " + responses + " (highlighted)");
 
-	solution = [2, 3, 5, 8];
-
-	correct = [false, true, true, false, true, false, false, true, false, false];
+	solution = [false, true, true, false, true, false, false, true, false, false];
 	responses = responses.map( i => parseInt(i));
 	non_responses = [];
 	for (var i of Array(10).keys()) {
@@ -110,11 +139,31 @@
 		}
 	}
 
+	correct = []
+	for (i = 1; i <= solution.length; i++) {
+		// console.log(i, solution[i], non_responses.includes( ++i ), responses.includes( ++i))
+		if ((solution[i-1] == false) && non_responses.includes(i)) {
+			correct.push(true)
+		} else if ((solution[i-1] == true) && responses.includes(i)) {
+			correct.push(true)
+		} else {
+			correct.push(false)
+		}
+	}
+
+	for (i = 0; i < correct.length; i++) {
+		if (correct[i] == false) {
+			$("i#correct-"+(i+1)).hide()
+		} else {
+			$("i#incorrect-"+(i+1)).hide()
+		}
+	}
+
 	positives = []
 	negatives = []
 
 	responses.forEach(function (item, index) {
-		if (correct[item - 1] == true) {
+		if (solution[item - 1] == true) {
 			positives.push(1)
 		} else {
 			positives.push(0)
@@ -122,7 +171,7 @@
 	});
 
 	non_responses.forEach(function (item, index) {
-		if (correct[item - 1] == false) {
+		if (solution[item - 1] == false) {
 			negatives.push(1)
 		} else {
 			negatives.push(0)
@@ -155,10 +204,9 @@
 	$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url + img_order[8] + ".png");
 	$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + img_order[9] + ".png");
 
-	$("div#opt-2").addClass("selected");
-	$("div#opt-3").addClass("selected");
-	$("div#opt-5").addClass("selected");
-	$("div#opt-8").addClass("selected");
+	for (i in responses) {
+		$("div#opt-" + responses[i]).addClass("selected");
+	}
 
 
 	var n = 30;

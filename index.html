@@ -24,6 +24,61 @@
 
 	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
 	<script type="text/javascript">
+		function shuffle(array) {
+			var n = array.length, t, i;
+			while (n) {
+				i = Math.random() * n-- | 0;
+				t = array[n];
+				array[n] = array[i];
+				array[i] = t;
+			}
+			return array;
+		}
+
+		var vis = shuffle(["raw-data", "ci", "halfeye"]);
+		var alpha = shuffle(["10", "5", "1"]);
+
+		function uuidv4() {
+		return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+				(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+			)
+		}
+
+
+		function __gcd(a, b){
+			// Everything divides 0
+			if (a == 0 || b == 0) {
+				return 0;
+			}
+			// base case
+			if (a == b) {
+				return a;
+			}
+			// a is greater
+			if (a > b) {
+				return __gcd(a - b, b);
+			}
+			return __gcd(a, b - a);
+		}
+
+		// Function to check and print if
+		// two numbers are co-prime or not
+		function coprime(b = 31) {
+			a = Math.ceil(Math.random() * 99);
+
+			if ( __gcd(a, b) == 1 && a != 1){
+				return a;
+			}
+			else {
+				return coprime();
+			}
+		}
+
+		a = coprime();
+		n = 30;
+		b = [...Array(n).keys()].map( i => ++i ); //[1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+		var trial_order = b.map( i => (i * a) % 31);
+
 		TimeMe.initialize({
 			currentPageName: "trial-0.0", // current page
 			idleTimeoutInSeconds: 120 // stop recording time due to inactivity
@@ -32,56 +87,93 @@
 		var urlParams = new URLSearchParams(window.location.search);
 
 		var prolific_PID = urlParams.get('PROLIFIC_PID');
+		// var study_ID = urlParams.get('STUDY_ID');
 		var session_ID = urlParams.get('SESSION_ID');
+		var t1 = urlParams.get('t');
 	</script>
 </head>
 <body>
 	<div class = "row">
 		<div class="container">
-			<div class="col-sm-8 col-sm-offset-2">
-				<h1 class="margin-top-lg margin-btm-md">Visualization Insights Study</h1>
-				<h3>IRB information</h3>
-				<p>HUM00158894: Uncertainty visualization techniques for encouraging more robust data exploration behavior in visual analytics</p>
 
-				<h3 class="margin-top-sm">Project Details</h3>
-				<p>
-					Principal Investigator: Xiaoying Pu (University of Michigan)<br>
-					Co-investigators: Abhraneel Sarma (Northwestern University), Michael Correll (Tableau), Eli Brown (DePaul University)<br>
-					Faculty Advisor: Matthew Kay (University of Michigan)
-				</p>
-				<p>
-					You are invited to participate in a research study about data exploration and decision making using visualizations.
-					If you agree to be part of the research study, you will be presented with data visualizations and asked to make decisions using the information presented.
-				</p>
-				<p>
-					<i>Benefits of the research:</i> There are no direct benefits to you, the participant, other than compensation<br>
-					<i>Risks and discomforts:</i> We don't anticipate any risks from participation in this study greater than normal activity<br>
-					<i>Compensation:</i> At least $6, upto a maximum of $12.
-				</p>
-				<p>
-					Participating in this study is completely voluntary. Even if you decide to participate now, you may change your mind You may withdraw from the study at any time. If you do withdraw prior to the end of the study, you will receive no compensation, and your responses will be deleted. You may choose not to answer any survey question for any reason.
-					Information collected in this project may be shared with other researchers, but we will not share any information that could identify you.
-				</p>
-				<p>
-					If you have questions about this research study, please contact Xiaoying (xpu@umich.edu) or Matthew (mjskay@umich.edu).
-				</p>
-				<p>By clicking on the Accept button, you agree to participate in this study</p>
+			<div class="col-sm-8 col-sm-offset-2">
+				<h1 class="margin-top-lg margin-btm-md">Visualization Insights study</h1>
+				<p>Thank you for choosing to participate in this study!</p>
+				<p>This study will consist of 90 trials (rounds) in total. The trials will be divided into three blocks (of 30 trials each). We will introduce the visualizations used and any changes to your task before each block. Please read these instructions carefully as it will change for every block of trial.</p>
+				<p>In each trial, we will show you 10 graphs, and you will need to make decisions based on these graphs. We estimate each trial to take approximately 30 seconds. So the entire study will take approximately 45 mins. If you want to quit, please click on the exit button that will appear on each trial page, and you will be compensated for the number of trials that you've completed.</p>
+				<p><span class="highlight2">Note:</span> we do not save your progress, so please do not close this tab once you begin the study!</p>
+				<!-- <p>This study is IRB exempt: Uncertainty visualization techniques for encouraging more robust data exploration behavior in visual analytics  (HUM00158894). If you have any questions regarding the study, kindly contact Xiaoying: xpu@umich.edu</p> -->
+
+<!--
+				<p>Please read about the study
+					<span style="font-size: 1.5em">
+						<a href="consent.html" target="popup">HERE</a>
+					</span>
+					. -->
+					<div class="btn-container">
+						<a  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="font-size: 1.5em">
+							Click here to read the Information Sheet
+						</a>
+					</div>
+					<div class="collapse" id="collapseExample" >
+						<!-- <div class="card card-body">
+							Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+						</div> -->
+						<!-- <h1 class="margin-top-lg margin-btm-md">Information Sheet</h1> -->
+
+						<h4>Study Title: Uncertainty visualization techniques for encouraging more robust data exploration behavior in visual analytics</h4>
+						<p>HUM00158894</p>
+
+						<!-- <h3 class="margin-top-sm">Project Details</h3> -->
+						<p>
+							Principal Investigator: Matthew Kay (University of Michigan)<br>
+							Co-investigators: Xiaoying Pu (University of Michigan)
+						</p>
+						<p>
+							You are invited to participate in a research study about data exploration and decision making using visualizations.
+							If you agree to be part of the research study, you will be presented with data visualizations and asked to make decisions using the information presented.
+						</p>
+						<ul>
+							<li><i>Benefits of the research:</i> There are no direct benefits to you, the participant, other than compensation</li>
+							<li><i>Risks and discomforts:</i> We don't anticipate any risks from participation in this study greater than normal activity</li>
+							<li><i>Compensation:</i> At least $6, upto a maximum of $12.</li>
+						</ul>
+						<p>
+							Participating in this study is completely voluntary. Even if you decide to participate now, you may change your mind. You may withdraw from the study at any time. If you do withdraw prior to the end of the study, you will receive no compensation, and your responses will be deleted. You may choose not to answer any survey question for any reason.
+							Information collected in this project may be shared with other researchers, but we will not share any information that could identify you.
+						</p>
+						<p>
+							If you have questions about this research study, please contact Xiaoying (xpu@umich.edu) or Matthew (mjskay@umich.edu).
+						</p>
+						<p>The University of Michigan Institutional Review Board Health Sciences and Behavioral Sciences has determined that this study is exempt from IRB oversight.</p>
+
+				</div>
+
+				<hr>
+				<p><b >By clicking on "Proceed"</b> below, you indicate that you have understood the Information Sheet and agree to participate in this study.</p>
+
 			</div>
 		</div>
 	</div>
+
 	<div class = "row">
 		<div class="container">
+
 			<div class="btn-container">
-				<div class="btn" id="begin-btn">Accept</div>
 				<div class="btn" id="decline-btn">Decline</div>
+				<div class="btn" id="begin-btn">Proceed</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 </body>
 
 <script type="text/javascript">
+	var uuid = uuidv4();
+
 	$("div#begin-btn").on('click', initialiseUser);
 	$("div#decline-btn").on('click', rejectUser);
+
+
 
 	function rejectUser() {
 		window.location.href = 'quit.html';
@@ -91,8 +183,19 @@
 	function initialiseUser() {
 		// uses global value for 'selected'
 		// Time spent on page
-		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
-		window.location.href = 'desc.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&t='+t;
+		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000 + t1;
+
+		var queryURL = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=new&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&uuid='+uuid+'';
+
+		$.get(queryURL).done(function (data) {
+			window.location.href = 'test-1.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&vis='+vis+'&alpha='+alpha+'';
+		});
+
+		// var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis=null&alpha=null&trial=0.1&t='+t+'';
+
+		// $.get(submit_response_url).done(function (data) {
+		// 	window.location.href = 'test-1.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&vis='+vis+'&alpha='+alpha+'';
+		// });
 	}
 </script>
 </html>

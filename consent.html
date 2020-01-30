@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Information Sheet for the Visualization Insight Study</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Custom CSS -->
+	<link href="css/custom.css" rel="stylesheet">
+
+	<!-- Custom Fonts -->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	<!-- Custom JavaScript -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/timeme.js"></script>
+
+	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+	<script type="text/javascript">
+		TimeMe.initialize({
+			currentPageName: "trial-0.0", // current page
+			idleTimeoutInSeconds: 120 // stop recording time due to inactivity
+		});
+
+		var urlParams = new URLSearchParams(window.location.search);
+
+		var prolific_PID = urlParams.get('PROLIFIC_PID');
+		var session_ID = urlParams.get('SESSION_ID');
+	</script>
+</head>
+<body>
+	<div class = "row">
+		<div class="container">
+			<div class="col-sm-8 col-sm-offset-2">
+				<h1 class="margin-top-lg margin-btm-md">Information Sheet</h1>
+				<h4>Study Title: Uncertainty visualization techniques for encouraging more robust data exploration behavior in visual analytics</h4>
+				<p>HUM00158894</p>
+
+				<!-- <h3 class="margin-top-sm">Project Details</h3> -->
+				<p>
+					Principal Investigator: Matthew Kay (University of Michigan)<br>
+					Co-investigators: Xiaoying Pu (University of Michigan)
+				</p>
+				<p>
+					You are invited to participate in a research study about data exploration and decision making using visualizations.
+					If you agree to be part of the research study, you will be presented with data visualizations and asked to make decisions using the information presented.
+				</p>
+				<ul>
+					<li><i>Benefits of the research:</i> There are no direct benefits to you, the participant, other than compensation</li>
+					<li><i>Risks and discomforts:</i> We don't anticipate any risks from participation in this study greater than normal activity</li>
+					<li><i>Compensation:</i> At least $6, upto a maximum of $12.</li>
+				</ul>
+				<p>
+					Participating in this study is completely voluntary. Even if you decide to participate now, you may change your mind You may withdraw from the study at any time. If you do withdraw prior to the end of the study, you will receive no compensation, and your responses will be deleted. You may choose not to answer any survey question for any reason.
+					Information collected in this project may be shared with other researchers, but we will not share any information that could identify you.
+				</p>
+				<p>
+					If you have questions about this research study, please contact Xiaoying (xpu@umich.edu) or Matthew (mjskay@umich.edu).
+				</p>
+				<!-- <p>By clicking on the Accept button, you agree to participate in this study</p> -->
+				<!-- <p>Please proceed to the experiment page.</p> -->
+			</div>
+		</div>
+	</div>
+	<!-- <div class = "row">
+		<div class="container">
+			<div class="btn-container">
+				<div class="btn" id="begin-btn">Accept</div>
+				<div class="btn" id="decline-btn">Decline</div>
+			</div>
+		</div>
+	</div> -->
+</body>
+
+<script type="text/javascript">
+	$("div#begin-btn").on('click', initialiseUser);
+	$("div#decline-btn").on('click', rejectUser);
+
+	function rejectUser() {
+		window.location.href = 'quit.html';
+	}
+
+	// send response to DB
+	function initialiseUser() {
+		// uses global value for 'selected'
+		// Time spent on page
+		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
+		window.location.href = 'desc.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&t='+t;
+	}
+</script>
+</html>

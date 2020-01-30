@@ -40,6 +40,7 @@
 
 .selected {
 	background: #3CA8FF; 
+	color: #fff !important;
 }
 
 .btn-container {
@@ -211,11 +212,15 @@ img.vis-desc {
 .correct-label {
 	font-size: 48px !important;
 	color: green !important;
-	position: absolute; top: 24px; right: 16px;
+	position: absolute; top: 64px; right: 16px;
 }
 
 .incorrect-label {
 	font-size: 48px !important;
 	color: red !important;
-	position: absolute; top: 24px; right: 16px;
+	position: absolute; top: 64px; right: 16px;
+}
+
+p.region-label {
+	text-align: center;
 }

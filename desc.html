@@ -130,7 +130,7 @@
 		// Time spent on page
 		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000 + t1;
 
-		var queryURL = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=new&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&uuid='+uuid+'';
+		var queryURL = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/user_records?user=new&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&uuid='+uuid+'';
 		
 		$.get(queryURL).done(function (data) {
 			window.location.href = 'test-1.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&vis='+vis+'&alpha='+alpha+'';

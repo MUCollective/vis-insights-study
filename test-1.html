@@ -81,34 +81,54 @@
 				</div>
 				<div class="row">
 					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
-						<div class = "question-container" id = "opt-1"></div>
+						<div class = "question-container" id = "opt-1">
+							<p class="region-label">Region 1</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-2"></div>
+						<div class = "question-container" id = "opt-2">
+							<p class="region-label">Region 2</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-3"></div>
+						<div class = "question-container" id = "opt-3">
+							<p class="region-label">Region 3</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-4"></div>
+						<div class = "question-container" id = "opt-4">
+							<p class="region-label">Region 4</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-5"></div>
+						<div class = "question-container" id = "opt-5">
+							<p class="region-label">Region 5</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
-						<div class = "question-container" id = "opt-6"></div>
+						<div class = "question-container" id = "opt-6">
+							<p class="region-label">Region 6</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-7"></div>
+						<div class = "question-container" id = "opt-7">
+							<p class="region-label">Region 7</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-8"></div>
+						<div class = "question-container" id = "opt-8">
+							<p class="region-label">Region 8</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-9"></div>
+						<div class = "question-container" id = "opt-9">
+							<p class="region-label">Region 9</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-10"></div>
+						<div class = "question-container" id = "opt-10">
+							<p class="region-label">Region 10</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -144,14 +164,17 @@
 	$(function() {
 		$('.question-container').hover(function() {
 			$(this).css('background', '#3CA8FF');
+			$(this).css('color', '#fff');
 		}, function() {
 			// on mouseout, reset the background colour
 			$(this).css('background', '');
+			$(this).css('color', '#333333');
 		});
 	});
 
 	$(".question-container").click(function () {
 		$(this).toggleClass("selected");
+
 		var id_str = $(this).children().attr("src").split("-");
 		var id = id_str[id_str.length - 1].split(".")[0];
 

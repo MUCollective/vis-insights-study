@@ -143,7 +143,7 @@
 	var img_order = shuffle([...Array(10).keys()].map( i => ++i ));
 	// var i_level = Math.floor(Math.random() * levels.length);
 
-	var trial_count_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=trial_count&PROLIFIC_PID=' + prolific_PID + '&SESSION_ID=' + session_ID + '';
+	var trial_count_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?type=trial_count&PROLIFIC_PID=' + prolific_PID + '&SESSION_ID=' + session_ID + '';
 
 	$.get(trial_count_url, function(data, status) {
 		trial_idx = data['count'];
@@ -159,6 +159,7 @@
 		alpha = parseInt(incentives[index])/100;
 
 		prev = data['prev'];
+		console.log(prev);
 		prev_pay = (prev['tp'] + prev['tn'] + prev['fn']) * 20 + prev['fp'] * Math.round(((1-alpha)/alpha) * 20);
 
 		$("span#fp-val").text("" + Math.round(((1-alpha)/alpha) * 20) + " points");
@@ -218,11 +219,11 @@
 		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
 
 		if (selected.length > 0){			
-			var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
+			var submit_response_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
 
 			$.get(submit_response_url).done(function (data) {
 				if (trial_idx >= (conditions.length * n - 1)){
-					var get_uuid_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
+					var get_uuid_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/user_records?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
 
 					$.get(get_uuid_url, function(data, status) { 
 						uuid = data;
@@ -246,11 +247,11 @@
 		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
 
 		if (selected.length == 0){
-			var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
+			var submit_response_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
 
 			$.get(submit_response_url).done(function (data) {
 				if (trial_idx >= (conditions.length * n - 1)){
-					var get_uuid_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
+					var get_uuid_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/user_records?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
 
 					$.get(get_uuid_url, function(data, status) { 
 						uuid = data;

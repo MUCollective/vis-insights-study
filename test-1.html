@@ -56,31 +56,34 @@
 
 						<div class="row">
 							<div class="col-sm-12">
-								<p><img class="vis-desc" src="images/ci_calc_plot.png" align="right"/>You are a manager supervising the sales of your group of stores across 10 regions. Each region has 200 stores. Your job is to pick out the promising regions where the average store is <span class="highlight2">making a profit</span> (profit > 0). So far, however, you've only received sales data for 20 random stores (out of 200) in each region. To help you evaluate the regional profits with imcomplete data, your business analyst used statistics and created plots, like the ones shown on the right.
+								<p><img class="vis-desc" src="images/ci_calc_plot.png" align="right"/>You are a manager supervising the sales of a group of stores across 10 regions. Each region has 200 stores. <span class="highlight2">Your job is to make judgment calls now and pick out the promising regions where the average store is making a profit</span> (profit > 0). So far, however, you've only received sales data for 20 random stores (out of 200) in each region. To help you evaluate the regional profits with imcomplete data, your business analyst used statistics and created plots, like the ones shown on the right.
 								</p><br>
 								<p>Keep in mind that each graph only show sales data from the 20 random stores, out of the  200 stores in each region. So even if the average store is making profit in the graph, the other stores in the region might be loosing a lot of money. It is up to you to assess if the <b>all</b> the stores in the region are making profits on average.
 								</p>
 								<p>
-								Once you try out the task below, you can compare your judgement to the actual data in the next screen.</p><br>
+								Once you try picking out the profitable reagions below, you can compare your judgement to the actual data in the next screen.</p><br>
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-sm-12">
-								<h3>Reward structure</h3>
-								<p><img id="payoff-img" src="images/payoff_5.png" align="right">By clicking on a region, you indicate that you think the region has a profit greater than zero. Your goal is to maximise your points.
+								<h3>How your job performance is evaluated</h3>
+								<p><img id="payoff-img" src="images/payoff_5.png" align="right">
+									Your job of picking out profitable regions without full sets of data is risky. You will win or lose corporate brownie points based on the rules below, and of course your goal is to maximize your points for the next promotion.
+									<!-- By clicking on a region, you indicate that you think the region has a profit greater than zero. Your goal is to maximise your points. -->
 								<ul>
-									<li>If you <b>click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive 20 points. <!-- This is a <i>True Positive</i>.--></li>
-									<li>If you <b>click</b> on a region, and that region <b>does not</b> have a profit greater than zero, on average, you will lose <span class="highlight">380 points.</span><!--  This is a <i>False Positive</i>. --></li>
-									<li>If you <b>do not click</b> on a region, and that region <b>does not</b> have a profit greater than zero on average, you will receive 20 points. <!-- This is a <i>True Negative</i>. --></li>
-									<li>If you <b>do not click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will lose 20 points. <!-- This is a <i>False Negative</i>. --></li>
+									<li>If you think a region is profitable on average and <b>select</b> it now based on the 20 stores, and that region <b>does have</b> an average profit greater than zero based on all 200 stores, you will receive 20 points. <!-- This is a <i>True Positive</i>.--></li>
+									<li>If you <b>select</b>  a region, and that region <b>does not</b> have a profit greater than zero, on average, you will lose <span class="highlight">380 points.</span><!--  This is a <i>False Positive</i>. --></li>
+									<li>If you <b>do not select</b>  a region, and that region <b>does not</b> have a profit greater than zero on average, you will receive 20 points. <!-- This is a <i>True Negative</i>. --></li>
+									<li>If you <b>do not select</b>  a region, and that region <b>does have</b> a profit greater than zero, on average, you will lose 20 points. <!-- This is a <i>False Negative</i>. --></li>
 								</ul>
 								</p>
 							</div>
 						</div>
 
 						<h3 class="margin-top-sm">Try out your task</h3>
-						<p><i>Click on the regions</i> you think are making a profit based on this data. You can click on multiple stores.</p>
+						<p><i>Click on the regions</i> you think are making a profit.
+							Keep in mind that each graph only show sales data from the 20 random stores, out of the 200 stores in each region. You can click on multiple stores.</p>
 					</div>
 				</div>
 				<div class="row">

@@ -51,25 +51,25 @@
 		<div class="container">
 			<div class="col-sm-8 col-sm-offset-2">
 				<h2 class="margin-top-lg margin-btm-md">Visualization Insights study</h2>
-				<p>This is the final page. Please answer the following open-ended questions.</p>
+				<p>You made it! This is the final page. Please help us understand your experience taking our study.</p>
 				<form id="open_q">
 					<div class="form-group">
-						<label for="q1">Please describe the strategy you used in the task</label>
+						<label for="q1">What strategy did you use to complete the tasks?</label>
 						<textarea class="form-control" id="q1" rows="3"></textarea>
 					</div>
 					<div class="form-group">
-						<label for="q2">Please describe any problems encountered with the interface</label>
+						<label for="q2">Did you have any problems with the interface? If so, what were they?</label>
 						<textarea class="form-control" id="q2" rows="3"></textarea>
 					</div>
 					<div class="form-group">
-						<label for="q3">Please describe any problems that you had in understanding the task or any other aspect of the study</label>
+						<label for="q3">Did you feel that you have a good understanding of the task? If not, what made you confused?</label>
 						<textarea class="form-control" id="q3" rows="3"></textarea>
 					</div>
 					<div class="form-group">
-						<label for="q4">Did you feel that the study was too long?</label>
+						<label for="q4">Any other feedback on this study (in terms of length, etc.)?</label>
 						<textarea class="form-control" id="q4" rows="3"></textarea>
 					</div>
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<button type="submit" class="btn btn-primary">Submit and return to Prolific</button>
 				</form>
 			</div>
 		</div>
@@ -93,7 +93,7 @@
 		inputs.each(function() {
 			values[this.id] = $(this).val();
 		});
-		
+
 		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
 
 		var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=open_responses&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&strategy='+values['q1']+'&problems='+values['q2']+'&understanding='+values['q3']+'&length='+values['q4']+'&t=' + t + '';
@@ -114,7 +114,7 @@
 	// 	// Time spent on page
 	// 	var t = TimeMe.getTimeOnCurrentPageInSeconds();
 	// 	var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&cond='+conditions[i_condition]+'&trial_index='+trial_idx+'&trial='+trial_order[t_idx]+'';
-		
+
 	// }
 </script>
 </html>

@@ -64,34 +64,54 @@
 				</div>
 				<div class="row">
 					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
-						<div class = "question-container" id = "opt-1"></div>
+						<div class = "question-container" id = "opt-1">
+							<p class="region-label">Region 1</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-2"></div>
+						<div class = "question-container" id = "opt-2">
+							<p class="region-label">Region 2</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-3"></div>
+						<div class = "question-container" id = "opt-3">
+							<p class="region-label">Region 3</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-4"></div>
+						<div class = "question-container" id = "opt-4">
+							<p class="region-label">Region 4</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-5"></div>
+						<div class = "question-container" id = "opt-5">
+							<p class="region-label">Region 5</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
-						<div class = "question-container" id = "opt-6"></div>
+						<div class = "question-container" id = "opt-6">
+							<p class="region-label">Region 6</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-7"></div>
+						<div class = "question-container" id = "opt-7">
+							<p class="region-label">Region 7</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-8"></div>
+						<div class = "question-container" id = "opt-8">
+							<p class="region-label">Region 8</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-9"></div>
+						<div class = "question-container" id = "opt-9">
+							<p class="region-label">Region 9</p>
+						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
-						<div class = "question-container" id = "opt-10"></div>
+						<div class = "question-container" id = "opt-10">
+							<p class="region-label">Region 10</p>
+						</div>
 					</div>
 				</div>
 				<div class="row">
@@ -170,7 +190,7 @@
 			$("span#result-prev").html(result_str);
 			$("span#payoff-prev").html("<i>Payout from last round: </i>" + prev_pay);
 			$("span#payoff").html("<i>Total Payout:</i> " + total_pay);
-		}		
+		}
 
 		url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/"+ conditions[index] +"/profits-t"+ trial_order[t_idx] + "-p";
 
@@ -218,14 +238,14 @@
 		// Time spent on page
 		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
 
-		if (selected.length > 0){			
+		if (selected.length > 0){
 			var submit_response_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
 
 			$.get(submit_response_url).done(function (data) {
 				if (trial_idx >= (conditions.length * n - 1)){
 					var get_uuid_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/user_records?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
 
-					$.get(get_uuid_url, function(data, status) { 
+					$.get(get_uuid_url, function(data, status) {
 						uuid = data;
 
 						window.location.href = 'https://umich.qualtrics.com/jfe/form/SV_0O0FsjvFas9tzKd?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&uuid='+uuid+'';
@@ -236,7 +256,7 @@
 					} else {
 						window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
 					}
-				}	
+				}
 			});
 		} else {
 			alert("Please indicate a region as profitable or click on the button marked, 'None of the regions are profitable'")
@@ -253,7 +273,7 @@
 				if (trial_idx >= (conditions.length * n - 1)){
 					var get_uuid_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/user_records?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
 
-					$.get(get_uuid_url, function(data, status) { 
+					$.get(get_uuid_url, function(data, status) {
 						uuid = data;
 
 						window.location.href = 'https://umich.qualtrics.com/jfe/form/SV_0O0FsjvFas9tzKd?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&uuid='+uuid+'';
@@ -264,7 +284,7 @@
 					} else {
 						window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
 					}
-				}	
+				}
 			});
 		} else {
 			alert("You have indicated certain regions as profitable. Please click on the submit button")
@@ -272,4 +292,3 @@
 	}
 </script>
 </html>
-

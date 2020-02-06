@@ -35,7 +35,8 @@
 			return array;
 		}
 
-		var vis = shuffle(["raw-data", "ci", "halfeye"]);
+		// var vis = shuffle(["raw-data", "ci", "halfeye"]);
+		var vis = shuffle(["ci", "ci", "ci"]);
 		var alpha = shuffle(["10", "5", "1"]);
 
 		function uuidv4() {
@@ -66,7 +67,8 @@
 		function coprime(b = 31) {
 			a = Math.ceil(Math.random() * 99);
 
-			if ( __gcd(a, b) == 1 && a != 1){
+			// if ( __gcd(a, b) == 1 && a != 1){
+			if ( __gcd(a, b) == 1 && a != 1 && a != 0){
 				return a;
 			}
 			else {

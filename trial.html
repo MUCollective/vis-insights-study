@@ -179,7 +179,6 @@
 		alpha = parseInt(incentives[index])/100;
 
 		prev = data['prev'];
-		console.log(prev);
 		prev_pay = (prev['tp'] + prev['tn'] + prev['fn']) * 20 + prev['fp'] * Math.round(((1-alpha)/alpha) * 20);
 
 		$("span#fp-val").text("" + Math.round(((1-alpha)/alpha) * 20) + " points");

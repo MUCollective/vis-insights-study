@@ -182,6 +182,8 @@
 		prev_pay = (prev['tp'] + prev['tn'] + prev['fn']) * 20 + prev['fp'] * Math.round(((1-alpha)/alpha) * 20);
 
 		$("span#fp-val").text("" + Math.round(((1-alpha)/alpha) * 20) + " points");
+		// the payoff matrix images/payoff_5.png
+		$("img#payoff-img").attr("src", "images/payoff_" + incentives[index] + ".png");
 
 		if (trial_idx > 0 & prev != "NA") {
 			result_str = "<i>Previous trial:</i> True Positive: " + prev['tp'] + ", True Negative: " + prev['tn'] + ", False Positive: " + -1*prev['fp'] + ", False Negative: " + -1*prev['fn'];

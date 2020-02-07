@@ -49,10 +49,10 @@
 						<h3 class="margin-top-md">Visualization Insights study</h3>
 						<p>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. You want to find out if the stores are making a profit in each region. However, you only have the data for 20 randomly selected stores from the 200 stores in each region. Below, we show the profit for these 20 stores. Click on which of these regions are making a profit. You can click on multiple stores.</p>
 
-						<h4 class="margin-top-md">Trial No. <span id="trial-num">1</span></h4>
+						<h4 class="margin-top-md">Trial No. <span id="trial-num">1</span>/90</h4>
 						<p>
-							<span id="result-prev">Result of previous round: NA</span><br>
-							<span id="payoff-prev">Payoff from previous round: NA</span><br>
+							<span id="result-prev">Result of previous round: -</span><br>
+							<span id="payoff-prev">Payoff from previous round: -</span><br>
 							<span id="payoff">Total Payoff: 0</span>
 						</p>
 					</div>
@@ -127,10 +127,10 @@
 								<h3>Reward structure</h3>
 								<p><img id="payoff-img" src="images/payoff_5.png" align="right">Please read the incentive structure carefully as it will change for every block of trial
 								<ul>
-									<li>If you <b>click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive 20 points. <!-- This is a <i>True Positive</i>.--></li>
-									<li>If you <b>click</b> on a region, and that region <b>does not</b> have a profit greater than zero, on average, you will lose <span class="highlight" id="fp-val">380 points.</span><!--  This is a <i>False Positive</i>. --></li>
-									<li>If you <b>do not click</b> on a region, and that region <b>does not</b> have a profit greater than zero on average, you will receive 20 points. <!-- This is a <i>True Negative</i>. --></li>
-									<li>If you <b>do not click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will lose 20 points. <!-- This is a <i>False Negative</i>. --></li>
+									<li>&#x2705; If you <b>click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive 20 points. <!-- This is a <i>True Positive</i>.--></li>
+									<li>&#x2705; If you <b>do not click</b> on a region, and that region <b>does not</b> have a profit greater than zero on average, you will receive 20 points. <!-- This is a <i>True Negative</i>. --></li>
+									<li>&#10060; If you <b>click</b> on a region, and that region <b>does not</b> have a profit greater than zero, on average, you will lose <span class="highlight" id="fp-val">380 points.</span><!--  This is a <i>False Positive</i>. --></li>
+									<li>&#10060; If you <b>do not click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will lose 20 points. <!-- This is a <i>False Negative</i>. --></li>
 								</ul>
 								</p>
 							</div>
@@ -186,10 +186,11 @@
 		$("img#payoff-img").attr("src", "images/payoff_" + incentives[index] + ".png");
 
 		if (trial_idx > 0 & prev != "NA") {
-			result_str = "<i>Previous trial:</i> True Positive: " + prev['tp'] + ", True Negative: " + prev['tn'] + ", False Positive: " + -1*prev['fp'] + ", False Negative: " + -1*prev['fn'];
+			// result_str = "<i>Previous trial:</i> &#x2705; True Positive: " + prev['tp'] + ", &#x2705; True Negative: " + prev['tn'] + ", &#10060 False Positive: " + -1*prev['fp'] + ", &#10060 False Negative: " + -1*prev['fn'];
+			result_str = "<i>Previous trial:</i> &#x2705; Selected, profitable: " + prev['tp'] + ", &#x2705; Didn't select, not profitable: " + prev['tn'] + ", &#10060 Selected, not profitable: " + -1*prev['fp'] + ", &#10060 Didn't select, profitable: " + -1*prev['fn'];
 
 			$("span#result-prev").html(result_str);
-			$("span#payoff-prev").html("<i>Payout from last round: </i>" + prev_pay);
+			$("span#payoff-prev").html("<i>Payout from previous trial: </i>" + prev_pay);
 			$("span#payoff").html("<i>Total Payout:</i> " + total_pay);
 		}
 

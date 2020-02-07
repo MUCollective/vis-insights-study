@@ -30,7 +30,7 @@
 		var session_ID = urlParams.get('SESSION_ID');
 
 		TimeMe.initialize({
-			currentPageName: "exit", // current page
+			currentPageName: "quit", // current page
 			idleTimeoutInSeconds: 120 // stop recording time due to inactivity
 		});
 	</script>
@@ -41,26 +41,26 @@
 			<div class="col-sm-8 col-sm-offset-2">
 				<h1>Exit page</h1>
 
-				<h3>We are sorry to imform you that you have failed one of the attention checks.</h3>
-				<h3>Thank you for your interests in our study!</h3>
+				<p>We are sorry to inform you that you have failed one of the attention checks.</p>
+				<p>Thank you for your interests in our study!</p>
 			</div>
 		</div>
 	</div>
 </body>
 
 <script type="text/javascript">
-	var queryURL = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=old&PROLIFIC_PID='+prolific_PID+'';
+	// var queryURL = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/condition_counter?user=old&PROLIFIC_PID='+prolific_PID+'';
 
-	$.get(queryURL, function(data, status) {
-		uuid = data;
-		console.log(uuid);
-		$("p#mturk-code").text(uuid);
-	});
+	// $.get(queryURL, function(data, status) {
+	// 	uuid = data;
+	// 	console.log(uuid);
+	// 	$("p#mturk-code").text(uuid);
+	// });
 
-	$("div#submit-final-btn").on('click', acceptUserFinal);
-
-	function acceptUserFinal() {
-		window.location.href = 'https://app.prolific.co/submissions/complete?cc='+uuid+'';
-	}
+	// $("div#submit-final-btn").on('click', acceptUserFinal);
+	//
+	// function acceptUserFinal() {
+	// 	window.location.href = 'https://app.prolific.co/submissions/complete?cc='+uuid+'';
+	// }
 </script>
 </html>

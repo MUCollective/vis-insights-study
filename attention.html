@@ -47,7 +47,8 @@
 				<div class="row">
 					<div class="col-lg-10 col-lg-offset-1">
 						<h3 class="margin-top-md">Visualization Insights study</h3>
-						<p>Hi, this trial is meant to make sure that you have been paying attention. Simply select all regions to pass this attention check.</p>
+            <p>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. You want to find out if the stores are making a profit in each region. However, you only have the data for 20 randomly selected stores from the 200 stores in each region. Below, we show the profit for these 20 stores. Click on which of these regions are making a profit. You can click on multiple stores.</p>
+						<p>Pssst, this trial is meant to make sure that you have been paying attention. Simply select all regions to pass this attention check.</p>
 
 						<!-- <h4 class="margin-top-md">Trial No. <span id="trial-num">1</span></h4>
 						<p>
@@ -236,6 +237,17 @@
 
 	// send response to DB
 	function submitResponse() {
+
+    if (selected.length == 10){
+      // correct
+      if (((trial_idx + 1) % n) == 0) {
+        window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
+      } else {
+        window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
+      }
+    } else {
+      window.location.href = "quit.html";
+    }
 		// uses global value for 'selected'
 		// Time spent on page
 		// var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;

@@ -212,13 +212,27 @@ img.vis-desc {
 .correct-label {
 	font-size: 48px !important;
 	color: green !important;
-	position: absolute; top: 64px; right: 16px;
+	position: absolute; top: 48px; right: 16px;
 }
 
 .incorrect-label {
 	font-size: 48px !important;
-	color: red !important;
-	position: absolute; top: 64px; right: 16px;
+	color: #C0352A !important;
+	position: absolute; top: 48px; right: 16px;
+}
+
+.icon-correct {
+	font-size: 1.2em !important;
+	color: green !important;
+	display: inline-flex;
+    vertical-align: middle;
+}
+
+.icon-incorrect {
+	font-size: 1.2em !important;
+	color: #C0352A !important;
+	display: inline-flex;
+    vertical-align: middle;
 }
 
 p.region-label {

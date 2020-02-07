@@ -47,14 +47,15 @@
 				<div class="row">
 					<div class="col-lg-10 col-lg-offset-1">
 						<h3 class="margin-top-md">Visualization Insights study</h3>
-						<p>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. You want to find out if the stores are making a profit in each region. However, you only have the data for 20 randomly selected stores from the 200 stores in each region. Below, we show the profit for these 20 stores. Click on which of these regions are making a profit. You can click on multiple stores.</p>
+						<p>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. You want to find out if the stores are making a profit in each region. However, you only have the data for 20 randomly selected stores from the 200 stores in each region. Below, we show the profit for these 20 stores. Click on the regions you think are making a profit. You can select multiple regions.</p>
 
-						<h4 class="margin-top-md">Trial No. <span id="trial-num">1</span>/90</h4>
+						<h4 class="margin-top-md">Previous trial review</h4>
 						<p>
-							<span id="result-prev">Result of previous round: -</span><br>
-							<span id="payoff-prev">Payoff from previous round: -</span><br>
+							<span id="result-prev"></span><br>
+							<span id="payoff-prev"></span><br>
 							<span id="payoff">Total Payoff: 0</span>
 						</p>
+						<h4 class="margin-top-md">Current trial: No. <span id="trial-num">1</span>/90</h4>
 					</div>
 				</div>
 				<div class="row">
@@ -124,7 +125,7 @@
 					<div class="col-lg-10 col-lg-offset-1">
 						<div class="row">
 							<div class="col-sm-12">
-								<h3>Reward structure</h3>
+								<h3>How your job performance is evaluated</h3>
 								<p><img id="payoff-img" src="images/payoff_5.png" align="right">Please read the incentive structure carefully as it will change for every block of trial
 								<ul>
 									<li>&#x2705; If you <b>click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive 20 points. <!-- This is a <i>True Positive</i>.--></li>

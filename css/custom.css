@@ -222,14 +222,14 @@ img.vis-desc {
 }
 
 .icon-correct {
-	font-size: 1.2em !important;
+	font-size: 1.4em !important;
 	color: green !important;
 	display: inline-flex;
     vertical-align: middle;
 }
 
 .icon-incorrect {
-	font-size: 1.2em !important;
+	font-size: 1.4em !important;
 	color: #C0352A !important;
 	display: inline-flex;
     vertical-align: middle;

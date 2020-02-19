@@ -169,15 +169,15 @@
   // this query doesn't add a p_response row
 	$.get(trial_count_url, function(data, status) {
 		trial_idx = data['count'];
-		// $("span#trial-num").html(trial_idx + 1);
+		$("span#trial-num").html(trial_idx + 1);
 
-		// total_pay = 0;
-		// if (trial_idx > 0) {
-		// 	total_pay = data['payout'];
-		// }
-    //
-		// t_idx = trial_idx % n;
-		// index = Math.floor(trial_idx / n);
+		total_pay = 0;
+		if (trial_idx > 0) {
+			total_pay = data['payout'];
+		}
+
+		t_idx = trial_idx % n;
+		index = Math.floor(trial_idx / n);
 		// alpha = parseInt(incentives[index])/100;
     //
 		// prev = data['prev'];
@@ -195,7 +195,8 @@
 
     var profit_str = "profit";
     // https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/attention/profit-2.png
-		url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/attention/" + profit_str + "-";
+		// https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/raw/stimuli/plots/attention/profit-raw-data-1.png
+		url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/attention/" + profit_str + "-" + conditions[index] + "-";
 
 		$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url  + img_order[0] + ".png");
 		$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url  + img_order[1] + ".png");

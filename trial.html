@@ -20,6 +20,7 @@
 	<!-- Custom JavaScript -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src=//cdnjs.cloudflare.com/ajax/libs/seedrandom/2.3.10/seedrandom.min.js></script>
 	<script src="js/timeme.js"></script>
 
 	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
@@ -29,10 +30,24 @@
 		var prolific_PID = urlParams.get('PROLIFIC_PID');
 		var session_ID = urlParams.get('SESSION_ID');
 		var mod = urlParams.get('modulo');
+		var prev_param = urlParams.get('ret');
 		var conditions = urlParams.get('vis').split(",");
 		var incentives = urlParams.get('alpha').split(",");
-		// var payout = parseFloat(urlParams.get('out'));
-		// var result = JSON.parse(urlParams.get('result'));
+
+		if (prev_param == undefined) {
+			prev_trial = JSON.parse("[" + window.atob("MCwgbnVsbCwgbnVsbCwgbnVsbCwgbnVsbCwgMA") + "]");
+		} else {
+			prev_trial = JSON.parse("[" + window.atob( prev_param ) + "]");
+		}
+
+		zip = zip = (...rows) => [...rows[0]].map((_,c) => rows.map(row => row[c]));
+
+		var count = prev_trial[0];
+		var prev = zip(['tp', 'tn', 'fp', 'fn'], prev_trial.slice(1, 5)).reduce(function(map, obj) {
+			map[obj[0]] = obj[1];
+			return map;
+		}, {});
+		var cumulative_payout = prev_trial[5];
 
 		TimeMe.initialize({
 			currentPageName: "trial", // current page
@@ -142,164 +157,5 @@
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
-	function shuffle(array) {
-		var n = array.length, t, i;
-		while (n) {
-			i = Math.random() * n-- | 0;
-			t = array[n];
-			array[n] = array[i];
-			array[i] = t;
-		}
-		return array;
-	}
-
-	var selected = [];
-	var n = 30;
-	var b = [...Array(n).keys()].map( i => ++i );
-	var trial_order = b.map( i => (i * mod) % (n+1));
-	var index = null;
-	var trial_idx = null;
-	var i_sd = null;
-	var img_order = shuffle([...Array(10).keys()].map( i => ++i ));
-	// var i_level = Math.floor(Math.random() * levels.length);
-
-	var trial_count_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?type=trial_count&PROLIFIC_PID=' + prolific_PID + '&SESSION_ID=' + session_ID + '';
-
-	$.get(trial_count_url, function(data, status) {
-		trial_idx = data['count'];
-		$("span#trial-num").html(trial_idx + 1);
-
-		total_pay = 0;
-		if (trial_idx > 0) {
-			total_pay = data['payout'];
-		}
-
-		t_idx = trial_idx % n;
-		index = Math.floor(trial_idx / n);
-		alpha = parseInt(incentives[index])/100;
-
-		prev = data['prev'];
-		prev_pay = (prev['tp'] + prev['tn'] + prev['fn']) * 20 + prev['fp'] * Math.round(((1-alpha)/alpha) * 20);
-
-		$("span#fp-val").text("" + Math.round(((1-alpha)/alpha) * 20) + " points");
-		// the payoff matrix images/payoff_5.png
-		$("img#payoff-img").attr("src", "images/payoff_" + incentives[index] + ".png");
-
-		if (trial_idx > 0 & prev != "NA") {
-			// result_str = "<i>Previous trial:</i> &#x2705; True Positive: " + prev['tp'] + ", &#x2705; True Negative: " + prev['tn'] + ", &#10060 False Positive: " + -1*prev['fp'] + ", &#10060 False Negative: " + -1*prev['fn'];
-			result_str = "<i>Previous trial:</i> &#x2705; Selected, profitable: " + prev['tp'] + ", &#x2705; Didn't select, not profitable: " + prev['tn'] + ", &#10060 Selected, not profitable: " + -1*prev['fp'] + ", &#10060 Didn't select, profitable: " + -1*prev['fn'];
-
-			$("span#result-prev").html(result_str);
-			$("span#payoff-prev").html("<i>Payout from previous trial: </i>" + prev_pay);
-			$("span#payoff").html("<i>Total Payout:</i> " + total_pay);
-		}
-
-		url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/"+ conditions[index] +"/profits-t"+ trial_order[t_idx] + "-p";
-
-		$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[0] + ".png");
-		$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[1] + ".png");
-		$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[2] + ".png");
-		$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[3] + ".png");
-		$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[4] + ".png");
-		$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[5] + ".png");
-		$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[6] + ".png");
-		$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[7] + ".png");
-		$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[8] + ".png");
-		$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[9] + ".png");
-
-	});
-
-	$(function() {
-		$('.question-container').hover(function() {
-			$(this).css('background', '#3CA8FF');
-		}, function() {
-			// on mouseout, reset the background colour
-			$(this).css('background', '');
-		});
-	});
-
-	$(".question-container").click(function () {
-		$(this).toggleClass("selected");
-		var id_str = $(this).children().attr("src").split("-");
-		var id = id_str[id_str.length - 1].split(".")[0];
-
-		if (!selected.includes(id)) {
-			selected.push(id);
-		} else {
-			var idx = selected.indexOf(id);
-			if (idx !== -1) selected.splice(idx, 1);
-		}
-	});
-
-	$("div#submit-btn").on('click', submitResponse);
-	$("div#submit-none-btn").on('click', submitNoResponse);
-
-	// send response to DB
-	function submitResponse() {
-		// uses global value for 'selected'
-		// Time spent on page
-		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
-
-		if (selected.length > 0){
-			var submit_response_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
-
-			$.get(submit_response_url).done(function (data) {
-				if (trial_idx >= (conditions.length * n - 1)){
-					var get_uuid_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/user_records?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
-
-					$.get(get_uuid_url, function(data, status) {
-						uuid = data;
-
-						window.location.href = 'https://umich.qualtrics.com/jfe/form/SV_0O0FsjvFas9tzKd?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&uuid='+uuid+'';
-					})
-				} else {
-					if (((trial_idx + 1) % n) == 0) {
-						window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-					} else {
-						if ((trial_idx % (n - 3)) == 21){ // three attention checks at 21 48 75
-							window.location.href = 'attention.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-						} else {
-							window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-						}
-					}
-				}
-			});
-		} else {
-			alert("Please indicate a region as profitable or click on the button marked, 'None of the regions are profitable'")
-		}
-	}
-
-	function submitNoResponse() {
-		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
-
-		if (selected.length == 0){
-			var submit_response_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
-
-			$.get(submit_response_url).done(function (data) {
-				if (trial_idx >= (conditions.length * n - 1)){
-					var get_uuid_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/user_records?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
-
-					$.get(get_uuid_url, function(data, status) {
-						uuid = data;
-
-						window.location.href = 'https://umich.qualtrics.com/jfe/form/SV_0O0FsjvFas9tzKd?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&uuid='+uuid+'';
-					})
-				} else {
-					if (((trial_idx + 1) % n) == 0) {
-						window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-					} else {
-						if ((trial_idx % (n - 3)) == 21){ // three attention checks at 21 48 75
-							window.location.href = 'attention.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-						} else {
-							window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-						}
-					}
-				}
-			});
-		} else {
-			alert("You have indicated certain regions as profitable. Please click on the submit button")
-		}
-	}
-</script>
+<script type="text/javascript" src="js/custom.js"></script>
 </html>

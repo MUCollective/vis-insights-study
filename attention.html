@@ -31,8 +31,24 @@
 		var mod = urlParams.get('modulo');
 		var conditions = urlParams.get('vis').split(",");
 		var incentives = urlParams.get('alpha').split(",");
-		// var payout = parseFloat(urlParams.get('out'));
-		// var result = JSON.parse(urlParams.get('result'));
+		var prev_param = urlParams.get('ret');
+
+		if (prev_param == undefined) {
+			prev_trial = JSON.parse("[" + window.atob("MCwgbnVsbCwgbnVsbCwgbnVsbCwgbnVsbCwgMA") + "]");
+		} else {
+			prev_trial = JSON.parse("[" + window.atob( prev_param ) + "]");
+		}
+
+		console.log(prev_trial);
+
+		zip = zip = (...rows) => [...rows[0]].map((_,c) => rows.map(row => row[c]));
+
+		var count = prev_trial[0];
+		var prev = zip(['tp', 'tn', 'fp', 'fn'], prev_trial.slice(1, 5)).reduce(function(map, obj) {
+			map[obj[0]] = obj[1];
+			return map;
+		}, {});
+		var cumulative_payout = prev_trial[5];
 
 		// TimeMe.initialize({
 		// 	currentPageName: "trial", // current page
@@ -154,69 +170,39 @@
 		return array;
 	}
 
-	var selected = [];
 	var n = 30;
 	var b = [...Array(n).keys()].map( i => ++i );
 	var trial_order = b.map( i => (i * mod) % (n+1));
-	var index = null;
-	var trial_idx = null;
-	var i_sd = null;
 	var img_order = shuffle([...Array(10).keys()].map( i => ++i ));
-	// var i_level = Math.floor(Math.random() * levels.length);
+	var selected = [];
 
-	var trial_count_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?type=trial_count&PROLIFIC_PID=' + prolific_PID + '&SESSION_ID=' + session_ID + '';
+	trial_idx = count % n;
+	cond_idx = Math.floor(count / n);
 
-  // this query doesn't add a p_response row
-	$.get(trial_count_url, function(data, status) {
-		trial_idx = data['count'];
-		$("span#trial-num").html(trial_idx + 1);
+	var profit_str = "profit";
+	var url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/attention/" + profit_str + "-" + conditions[cond_idx] + "-";
 
-		total_pay = 0;
-		if (trial_idx > 0) {
-			total_pay = data['payout'];
-		}
+	$("img#payoff-img").attr("src", "images/payoff_" + incentives[cond_idx] + ".png");
 
-		t_idx = trial_idx % n;
-		index = Math.floor(trial_idx / n);
-		// alpha = parseInt(incentives[index])/100;
-    //
-		// prev = data['prev'];
-		// prev_pay = (prev['tp'] + prev['tn'] + prev['fn']) * 20 + prev['fp'] * Math.round(((1-alpha)/alpha) * 20);
-    //
-		// $("span#fp-val").text("" + Math.round(((1-alpha)/alpha) * 20) + " points");
-    //
-		// if (trial_idx > 0 & prev != "NA") {
-		// 	result_str = "<i>Previous trial:</i> True Positive: " + prev['tp'] + ", True Negative: " + prev['tn'] + ", False Positive: " + -1*prev['fp'] + ", False Negative: " + -1*prev['fn'];
-    //
-		// 	$("span#result-prev").html(result_str);
-		// 	$("span#payoff-prev").html("<i>Payout from last round: </i>" + prev_pay);
-		// 	$("span#payoff").html("<i>Total Payout:</i> " + total_pay);
-		// }
-
-    var profit_str = "profit";
-    // https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/attention/profit-2.png
-		// https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/raw/stimuli/plots/attention/profit-raw-data-1.png
-		url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/attention/" + profit_str + "-" + conditions[index] + "-";
-
-		$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url  + img_order[0] + ".png");
-		$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url  + img_order[1] + ".png");
-		$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url  + img_order[2] + ".png");
-		$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url  + img_order[3] + ".png");
-		$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url  + img_order[4] + ".png");
-		$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url  + img_order[5] + ".png");
-		$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url  + img_order[6] + ".png");
-		$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url  + img_order[7] + ".png");
-		$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url  + img_order[8] + ".png");
-		$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + img_order[9] + ".png");
-
-	});
+	$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url  + img_order[0] + ".png");
+	$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url  + img_order[1] + ".png");
+	$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url  + img_order[2] + ".png");
+	$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url  + img_order[3] + ".png");
+	$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url  + img_order[4] + ".png");
+	$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url  + img_order[5] + ".png");
+	$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url  + img_order[6] + ".png");
+	$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url  + img_order[7] + ".png");
+	$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url  + img_order[8] + ".png");
+	$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + img_order[9] + ".png");
 
 	$(function() {
 		$('.question-container').hover(function() {
 			$(this).css('background', '#3CA8FF');
+			$(this).css('color', '#ffffff');
 		}, function() {
 			// on mouseout, reset the background colour
 			$(this).css('background', '');
+			$(this).css('color', '#333333');
 		});
 	});
 
@@ -239,73 +225,27 @@
 	// send response to DB
 	function submitResponse() {
 
-    if (selected.length == 10){
-      // correct
-      if (((trial_idx + 1) % n) == 0) {
-        window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-      } else {
-        window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-      }
-    } else {
-      window.location.href = "quit.html";
-    }
-		// uses global value for 'selected'
-		// Time spent on page
-		// var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
-    //
-		// if (selected.length > 0){
-		// 	var submit_response_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses='+selected.toString()+'&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
-    //
-		// 	$.get(submit_response_url).done(function (data) {
-		// 		if (trial_idx >= (conditions.length * n - 1)){
-		// 			var get_uuid_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/user_records?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
-    //
-		// 			$.get(get_uuid_url, function(data, status) {
-		// 				uuid = data;
-    //
-		// 				window.location.href = 'https://umich.qualtrics.com/jfe/form/SV_0O0FsjvFas9tzKd?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&uuid='+uuid+'';
-		// 			})
-		// 		} else {
-		// 			if (((trial_idx + 1) % n) == 0) {
-		// 				window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-		// 			} else {
-		// 				window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-		// 			}
-		// 		}
-		// 	});
-		// } else {
-		// 	alert("Please indicate a region as profitable or click on the button marked, 'None of the regions are profitable'")
-		// }
+	    if (selected.length == 10){
+	      // correct
+			if (((trial_idx + 1) % n) == 0) {
+				window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&ret='+prev_param+'';
+			} else {
+				window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&ret='+prev_param+'';
+			}
+		} else {
+			window.location.href = "quit.html";
+		}
 	}
 
+	// send response to DB
 	function submitNoResponse() {
 		// var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
-
 		if (selected.length == 0){
-      window.location.href = "quit.html";
-
-			// var submit_response_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis='+conditions[index]+'&alpha='+incentives[index]+'&trial='+trial_order[t_idx]+'&t='+t+'';
-      //
-			// $.get(submit_response_url).done(function (data) {
-			// 	if (trial_idx >= (conditions.length * n - 1)){
-			// 		var get_uuid_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/user_records?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
-      //
-			// 		$.get(get_uuid_url, function(data, status) {
-			// 			uuid = data;
-      //
-			// 			window.location.href = 'https://umich.qualtrics.com/jfe/form/SV_0O0FsjvFas9tzKd?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&uuid='+uuid+'';
-			// 		})
-			// 	} else {
-			// 		if (((trial_idx + 1) % n) == 0) {
-			// 			window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-			// 		} else {
-			// 			window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
-			// 		}
-			// 	}
-			// });
+			window.location.href = "quit.html";
 		} else {
 			alert("You have indicated certain regions as profitable. Please click on the submit button")
 		}
 	}
+
 </script>
 </html>

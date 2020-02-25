@@ -31,16 +31,29 @@
 		var mod = urlParams.get('modulo');
 		var conditions = urlParams.get('vis').split(",");
 		var incentives = urlParams.get('alpha').split(",");
-		var payout = urlParams.get('out');
+		var prev_param = urlParams.get('ret');
 
-		if (payout == null) {
-			payout = 0;
+		if (prev_param == undefined) {
+			prev_trial = JSON.parse("[" + window.atob("MCwgbnVsbCwgbnVsbCwgbnVsbCwgbnVsbCwgMA") + "]");
+		} else {
+			prev_trial = JSON.parse("[" + window.atob( prev_param ) + "]");
 		}
 
-		TimeMe.initialize({
-			currentPageName: "trial-1", // current page
-			idleTimeoutInSeconds: 120, // stop recording time due to inactivity
-		});
+		console.log(prev_trial);
+
+		zip = zip = (...rows) => [...rows[0]].map((_,c) => rows.map(row => row[c]));
+
+		var count = prev_trial[0];
+		var prev = zip(['tp', 'tn', 'fp', 'fn'], prev_trial.slice(1, 5)).reduce(function(map, obj) {
+			map[obj[0]] = obj[1];
+			return map;
+		}, {});
+		var cumulative_payout = prev_trial[5];
+
+		// TimeMe.initialize({
+		// 	currentPageName: "trial-1", // current page
+		// 	idleTimeoutInSeconds: 120, // stop recording time due to inactivity
+		// });
 	</script>
 </head>
 <body>
@@ -50,11 +63,11 @@
 				<div class="row">
 					<div class="col-lg-10 col-lg-offset-1">
 						<h2 class="margin-top-md">Visualization Insights study</h2>
-						<p>This is the <span id="block-num">first</span> block of trials. Each block consists of 30 trials.</p>
 					</div>
 					<div class="col-lg-10 col-lg-offset-1">
 						<div class="condition-intro" id="ci">
 							<p><img class="vis-desc" src="images/ci_calc_plot.png" align="right"/>
+								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
 								You've only received sales data for 20 random stores (out of 200) in each region.
 								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots. Each plot shows the estimated average profit (in thousands of dollars) for a region based on the 20-store sample, and some uncertainty around the estimate (95% confidence interval).
 								<!-- Using statistics, we calculate and show, for 20 stores which were randomly selected from each region, the mean profit (in thousand $) and a range of uncertainty around this estimate of the mean profit (95% confidence interval), along the y-axis. In this block, each visualization will present the mean and the 95% confidence interval for the mean of the 20 stores. -->
@@ -65,6 +78,7 @@
 						<div class="condition-intro" id="raw-data">
 							<p><img class="vis-desc" src="images/rawdata_calc_plot.png" align="right"/>
 								<!-- In this block, each visualization will present one region. Each dot represents the profit from one of the 20-store samples, which were randomly selected from each region. -->
+								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
 								You've only received sales data for 20 random stores (out of 200) in each region.
 								To help you evaluate the regional profits with incomplete data, your business analyst created plots like the one to the right. The points show the profits made by the twenty-store sample in a given region. Keep in mind that there are 200 stores in total in each region, so your data are incomplete.
 							</p>
@@ -74,6 +88,7 @@
 						<div class="condition-intro" id="halfeye">
 							<p><img class="vis-desc" src="images/pdf_calc_plot.png" align="right"/>
 								<!-- Your job is to pick out the promising regions where the average store is making a profit (profit > 0).  -->
+								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
 								You've only received sales data for 20 random stores (out of 200) in each region.
 								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots. Each plot shows the estimated average profit (in thousands of dollars) for a region based on the 20-store sample, and some uncertainty around the estimate (95% confidence interval). In addition, the grey blob shows the density of the average estimate: the blob is wider around estimates of profits that are more likely.
 
@@ -109,29 +124,24 @@
 	</div>
 </body>
 <script type="text/javascript">
-	var selected = [];
 	var n = 30;
-	var index = null;
-	var trial_idx = null;
-	var i_sd = null;
+	var b = [...Array(n).keys()].map( i => ++i );
+	var trial_order = b.map( i => (i * mod) % (n+1));
+	var selected = [];
 
-	var trial_count_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?type=trial_count&PROLIFIC_PID=' + prolific_PID + '&SESSION_ID=' + session_ID + '';
+	trial_idx = count % n;
+	cond_idx = Math.floor(count / n);
 
-	$.get(trial_count_url, function(data, status) {
-		trial_idx = data['count'];
-		t_idx = trial_idx % n;
-		index = Math.floor(trial_idx / n);
-		cond = conditions[index];
-		alpha = parseInt(incentives[index])/100;
-		block_id = "first"
-		if (index == 0) {block_id = "first"} else if (index == 1) {block_id = "second"} else { block_id = "third" }
-		$("span#block-num").html(block_id);
+	cond = conditions[cond_idx];
+	alpha = parseInt(incentives[cond_idx])/100;
+	block_id = "first"
+	if (cond_idx == 0) {block_id = "first"} else if (cond_idx == 1) {block_id = "second"} else { block_id = "third" }
+	$("span.block-num").html(block_id);
 
-		$("span#fp-val").text("" + Math.round(((1-alpha)/alpha) * 2) * 10 + " points");
-		$("img#payoff-img").attr("src", "images/payoff_"+ (alpha * 100) +".png");
-		$("div.condition-intro").hide();
-		$("div#"+cond).show();
-	});
+	$("span#fp-val").text("" + Math.round(((1-alpha)/alpha) * 2) * 10 + " points");
+	$("img#payoff-img").attr("src", "images/payoff_"+ (alpha * 100) +".png");
+	$("div.condition-intro").hide();
+	$("div#"+cond).show();
 
 	$("div#submit-btn").on('click', submitResponse);
 
@@ -139,15 +149,9 @@
 	function submitResponse() {
 		// uses global value for 'selected'
 		// Time spent on page
-		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
 
-		// var submit_response_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis=null&alpha=null&trial=0&t='+t+'';
-
-		// console.log(submit_response_url);
-
-		if (trial_idx >= (conditions.length * n - 1)){
+		if (count >= (conditions.length * n - 1)){
 			var get_uuid_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/user_records?user=old&PROLIFIC_PID='+prolific_PID+'&SESSION_ID=' + session_ID + '';
-
 
 			$.get(get_uuid_url, function(data, status) {
 				uuid = data;
@@ -155,12 +159,8 @@
 				window.location.href = 'https://umich.qualtrics.com/jfe/form/SV_0O0FsjvFas9tzKd?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&uuid='+uuid+'';
 			})
 		} else {
-			window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&out='+payout+'';
+			window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&ret='+prev_param+'';;
 		}
-
-		// $.get(submit_response_url).done(function (data) {
-
-		// });
 	}
 </script>
 </html>

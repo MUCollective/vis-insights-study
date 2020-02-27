@@ -61,6 +61,12 @@ page_setup = function(count, prev, payout) {
 	$("div#submit-none-btn").on('click', submitNoResponse);
 };
 
+$("div#close-popup").on('click', closePopup);
+
+function closePopup() {
+	$("div#popup").hide(); // attr("display", "none");
+}
+
 page_setup(count, prev, cumulative_payout);
 
 $(function() {
@@ -140,6 +146,9 @@ function update_trial_page(c, responses, time) {
 				}
 			}
 		}
+	}).fail(function() {
+		console.log("try again");
+		$("div#popup").show();
 	});
 }
 

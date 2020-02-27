@@ -34,11 +34,13 @@
 		var conditions = urlParams.get('vis').split(",");
 		var incentives = urlParams.get('alpha').split(",");
 
-		if (prev_param == undefined) {
+		if (prev_param == "null") {
 			prev_trial = JSON.parse("[" + window.atob("MCwgbnVsbCwgbnVsbCwgbnVsbCwgbnVsbCwgMA") + "]");
 		} else {
 			prev_trial = JSON.parse("[" + window.atob( prev_param ) + "]");
 		}
+
+		console.log(prev_trial);
 
 		zip = zip = (...rows) => [...rows[0]].map((_,c) => rows.map(row => row[c]));
 
@@ -58,6 +60,13 @@
 <body>
 	<div class="row">
 		<div class="container-fluid">
+			<div id="popup">
+				<div class="error-msg">
+					<p>We encountered an error in recording your responses.<br>Please close this and try again</p>
+					<div id="close-popup">Close</div>
+				</div>
+				<div class="overlay"></div>
+			</div>
 			<div class="col-sm-10 col-sm-offset-1">
 				<div class="row">
 					<div class="col-lg-10 col-lg-offset-1">
@@ -71,11 +80,6 @@
 							<span id="payoff">Total Payoff: 0</span>
 						</p>
 						<h4 class="margin-top-md">Current trial: No. <span id="trial-num">1</span>/90</h4>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col=lg=10 col-sm-offset-1">
-						<p><span id="trial_count"></span></p>
 					</div>
 				</div>
 				<div class="row">

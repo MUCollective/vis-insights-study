@@ -69,16 +69,29 @@
 			</div>
 			<div class="col-sm-10 col-sm-offset-1">
 				<div class="row">
-					<div class="col-lg-10 col-lg-offset-1">
+					<div class="col-sm-10 col-sm-offset-1">
 						<h3 class="margin-top-md">Visualization Insights study</h3>
 						<p>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. You want to find out if the stores are making a profit in each region. However, you only have the data for 20 randomly selected stores from the 200 stores in each region. Below, we show the profit for these 20 stores. Click on the regions you think are making a profit. You can select multiple regions.</p>
 
 						<h4 class="margin-top-md">Previous trial review</h4>
+						<div class="row prev-trial-container">
+							<div class="prev-trial prev-trial-label">
+								<p><i>Previous trial:</i></p>
+							</div>
+							<div class="prev-trial prev-trial-info">
+								<p>
+									<span class="result-prev prev-tp"></span>
+									<span class="result-prev prev-tn"></span>
+									<span class="result-prev prev-fp"></span>
+									<span class="result-prev prev-fn"></span>
+								</p>
+							</div>
+						</div>
 						<p>
-							<span id="result-prev"></span><br>
 							<span id="payoff-prev"></span><br>
 							<span id="payoff">Total Payoff: 0</span>
 						</p>
+
 						<h4 class="margin-top-md">Current trial: No. <span id="trial-num">1</span>/90</h4>
 					</div>
 				</div>

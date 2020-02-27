@@ -49,10 +49,10 @@ page_setup = function(count, prev, payout) {
 
 	prev_pay = (prev['tp'] + prev['tn'] + prev['fn']) * 20 + prev['fp'] * Math.round(((1-alpha)/alpha) * 20);
 	if (count > 0 & prev != "NA") {
-		// result_str = "<i>Previous trial:</i> &#x2705; True Positive: " + prev['tp'] + ", &#x2705; True Negative: " + prev['tn'] + ", &#10060 False Positive: " + -1*prev['fp'] + ", &#10060 False Negative: " + -1*prev['fn'];
-		result_str = "<i>Previous trial:</i> &#x2705; Selected, profitable: " + prev['tp'] + ", &#x2705; Didn't select, not profitable: " + prev['tn'] + ", &#10060 Selected, not profitable: " + -1*prev['fp'] + ", &#10060 Didn't select, profitable: " + -1*prev['fn'];
-
-		$("span#result-prev").html(result_str);
+		$("span.prev-tp").html("&#x2705; Selected, profitable: " + prev['tp'] + ";");
+		$("span.prev-tn").html("&#x2705; Didn't select, not profitable: " + prev['tn'] + ";");
+		$("span.prev-fp").html("&#10060 Selected, not profitable: " + -1*prev['fp'] + ";");
+		$("span.prev-fn").html("&#10060 Didn't select, profitable: " + -1*prev['fn']);
 		$("span#payoff-prev").html("<i>Payout from previous trial: </i>" + prev_pay);
 		$("span#payoff").html("<i>Total Payout:</i> " + total_pay);
 	}

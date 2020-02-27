@@ -292,3 +292,25 @@ div#close-popup {
 	display: none;
 }
 
+.prev-trial-label {
+	max-width: 108px;
+	float: left;	
+}
+
+.prev-trial-info {
+	float: left;
+	display: inline-block;
+	max-width: calc(100% - 108px);
+}
+
+.prev-trial-info > p > span {
+	margin-left: 20px;
+}
+
+.prev-trial-container {
+	display: block;
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+}
+
+

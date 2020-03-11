@@ -30,8 +30,10 @@
 		var session_ID = urlParams.get('SESSION_ID');
 		var mod = urlParams.get('modulo');
 		var conditions = urlParams.get('vis').split(",");
-		var incentives = urlParams.get('alpha').split(",");
 		var prev_param = urlParams.get('ret');
+		var charts = urlParams.get('ch').split(",");
+		var n_regions;
+		if (charts == "m") {n_regions = 12} else {n_regions = 8};
 
 		if (prev_param == undefined) {
 			prev_trial = JSON.parse("[" + window.atob("MCwgbnVsbCwgbnVsbCwgbnVsbCwgbnVsbCwgMA") + "]");
@@ -180,9 +182,9 @@
 	cond_idx = Math.floor(count / n);
 
 	var profit_str = "profit";
-	var url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/attention/" + profit_str + "-" + conditions[cond_idx] + "-";
+	var url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/attention/profit-";
 
-	$("img#payoff-img").attr("src", "images/payoff_" + incentives[cond_idx] + ".png");
+	$("img#payoff-img").attr("src", "images/payoff_5.png");
 
 	$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url  + img_order[0] + ".png");
 	$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url  + img_order[1] + ".png");
@@ -228,9 +230,9 @@
 	    if (selected.length == 10){
 	      // correct
 			if (((trial_idx + 1) % n) == 0) {
-				window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&ret='+prev_param+'';
+				window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&ch='+charts+'&ret='+prev_param+'';
 			} else {
-				window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&ret='+prev_param+'';
+				window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&ch='+charts+'&ret='+prev_param+'';
 			}
 		} else {
 			window.location.href = "quit.html";

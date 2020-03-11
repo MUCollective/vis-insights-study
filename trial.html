@@ -32,7 +32,8 @@
 		var mod = urlParams.get('modulo');
 		var prev_param = urlParams.get('ret');
 		var conditions = urlParams.get('vis').split(",");
-		var incentives = urlParams.get('alpha').split(",");
+		var charts = urlParams.get('ch').split(",");
+		var n_regions;
 
 		if (prev_param == "null") {
 			prev_trial = JSON.parse("[" + window.atob("MCwgbnVsbCwgbnVsbCwgbnVsbCwgbnVsbCwgMA") + "]");
@@ -92,11 +93,11 @@
 							<span id="payoff">Total Payoff: 0</span>
 						</p>
 
-						<h4 class="margin-top-md">Current trial: No. <span id="trial-num">1</span>/90</h4>
+						<h4 class="margin-top-md">Current trial: No. <span id="trial-num">1</span>/60</h4>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
+					<div class="col-lg-2 col-sm-3">
 						<div class = "question-container" id = "opt-1">
 							<p class="region-label">Region 1</p>
 						</div>
@@ -121,7 +122,7 @@
 							<p class="region-label">Region 5</p>
 						</div>
 					</div>
-					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
+					<div class="col-lg-2 col-sm-3">
 						<div class = "question-container" id = "opt-6">
 							<p class="region-label">Region 6</p>
 						</div>
@@ -144,6 +145,16 @@
 					<div class="col-lg-2 col-sm-3">
 						<div class = "question-container" id = "opt-10">
 							<p class="region-label">Region 10</p>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-11">
+							<p class="region-label">Region 11</p>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-12">
+							<p class="region-label">Region 12</p>
 						</div>
 					</div>
 				</div>

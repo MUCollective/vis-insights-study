@@ -31,8 +31,9 @@
 		var session_ID = urlParams.get('SESSION_ID');
 		var mod = urlParams.get('modulo');
 		var conditions = urlParams.get('vis').split(",");
-		var incentives = urlParams.get('alpha').split(",");
 		var responses = urlParams.get('selected').split(",");
+		var charts = urlParams.get('ch').split(",");
+		if (charts == "m") {n_regions = 12} else {n_regions = 8};
 
 		TimeMe.initialize({
 			currentPageName: "test-2", // current page
@@ -67,7 +68,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
+					<div class="col-lg-2 col-sm-3">
 						<div class = "question-container" id = "opt-1">
 							<p class="region-label">Region 1</p>
 							<i class="material-icons correct-label" id="correct-1">check_circle</i>
@@ -102,7 +103,7 @@
 							<i class="material-icons incorrect-label" id="incorrect-5">cancel</i>
 						</div>
 					</div>
-					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
+					<div class="col-lg-2 col-sm-3">
 						<div class = "question-container" id = "opt-6">
 							<p class="region-label">Region 6</p>
 							<i class="material-icons correct-label" id="correct-6">check_circle</i>
@@ -137,6 +138,20 @@
 							<i class="material-icons incorrect-label" id="incorrect-10">cancel</i>
 						</div>
 					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-11">
+							<p class="region-label">Region 11</p>
+							<i class="material-icons correct-label" id="correct-10">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-10">cancel</i>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-12">
+							<p class="region-label">Region 12</p>
+							<i class="material-icons correct-label" id="correct-10">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-10">cancel</i>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -151,13 +166,13 @@
 	</div>
 </body>
 <script type="text/javascript">
-	var img_order = [...Array(10).keys()].map(i => ++i);
+	var img_order = [...Array(12).keys()].map(i => ++i);
 	$("p#trial-answers").text("You selected: " + responses + " (highlighted with blue borders)");
 
-	solution = [false, true, true, false, true, false, false, true, false, false];
+	solution = [true, true, true, false, true, false, true, false, false, false, true, true];
 	responses = responses.map( i => parseInt(i));
 	non_responses = [];
-	for (var i of Array(10).keys()) {
+	for (var i of Array(12).keys()) {
 		if (!responses.includes(i+1) ) {
 			non_responses.push(i+1);
 		}
@@ -214,7 +229,6 @@
 	$("span#payoff").text("Payoff: " + cumulative_pay);
 
 
-
 	url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/example/profits-sol-t0-p0.5-";
 
 	$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url + img_order[0] + ".png");
@@ -227,8 +241,11 @@
 	$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url + img_order[7] + ".png");
 	$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url + img_order[8] + ".png");
 	$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + img_order[9] + ".png");
+	$("div#opt-11").append('<img class = "question-graphic">').children().attr("src", url + img_order[10] + ".png");
+	$("div#opt-12").append('<img class = "question-graphic">').children().attr("src", url + img_order[11] + ".png");
 
 	for (i in responses) {
+		console.log(i, responses)
 		$("div#opt-" + responses[i]).addClass("selected");
 	}
 
@@ -246,7 +263,7 @@
 		// Time spent on page
 		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
 
-		window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'';
+		window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&ch='+charts+'';
 	}
 </script>
 </html>

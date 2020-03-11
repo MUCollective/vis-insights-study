@@ -35,9 +35,8 @@
 			return array;
 		}
 
-		// var vis = shuffle(["raw-data", "ci", "halfeye"]);
-		var vis = shuffle(["raw-data", "raw-data", "raw-data"]);
-		var alpha = shuffle(["30", "10", "1"]);
+		var vis = ["ci", "ci"];
+		var charts = shuffle(["m", "f"]);
 
 		function uuidv4() {
 		return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
@@ -199,7 +198,7 @@
 		var queryURL = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/user_records?user=new&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&uuid='+uuid+'';
 
 		$.get(queryURL).done(function (data) {
-			window.location.href = 'test-1.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&vis='+vis+'&alpha='+alpha+'';
+			window.location.href = 'test-1.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+a+'&vis='+vis+'&ch='+charts+'';
 		});
 
 		// var submit_response_url = 'https://w3drv4o3cl.execute-api.us-east-2.amazonaws.com/prod/interaction_logger?type=response&PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&responses=null&vis=null&alpha=null&trial=0.1&t='+t+'';

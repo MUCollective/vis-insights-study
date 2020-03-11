@@ -31,11 +31,13 @@
 .question-container {
 	padding: 4px;
 	margin: 20px 0px;
+	max-width: 100%;
 }
 
 .question-graphic {
 	max-width: 100%;
 	display: block;
+	margin: auto;
 }
 
 .selected {

@@ -30,8 +30,9 @@
 		var session_ID = urlParams.get('SESSION_ID');
 		var mod = urlParams.get('modulo');
 		var conditions = urlParams.get('vis').split(",");
-		var incentives = urlParams.get('alpha').split(",");
 		var prev_param = urlParams.get('ret');
+		var charts = urlParams.get('ch').split(",");
+		if (charts == "m") {n_regions = 12} else {n_regions = 8};
 
 		if (prev_param == undefined) {
 			prev_trial = JSON.parse("[" + window.atob("MCwgbnVsbCwgbnVsbCwgbnVsbCwgbnVsbCwgMA") + "]");
@@ -133,7 +134,7 @@
 	cond_idx = Math.floor(count / n);
 
 	cond = conditions[cond_idx];
-	alpha = parseInt(incentives[cond_idx])/100;
+	alpha = 0.05; // parseInt(incentives[cond_idx])/100;
 	block_id = "first"
 	if (cond_idx == 0) {block_id = "first"} else if (cond_idx == 1) {block_id = "second"} else { block_id = "third" }
 	$("span.block-num").html(block_id);
@@ -159,7 +160,7 @@
 				window.location.href = 'https://umich.qualtrics.com/jfe/form/SV_0O0FsjvFas9tzKd?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&uuid='+uuid+'';
 			})
 		} else {
-			window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&ret='+prev_param+'';;
+			window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&ch='+charts+'&ret='+prev_param+'';;
 		}
 	}
 </script>

@@ -30,7 +30,10 @@
 		var session_ID = urlParams.get('SESSION_ID');
 		var mod = urlParams.get('modulo');
 		var conditions = urlParams.get('vis').split(",");
-		var incentives = urlParams.get('alpha').split(",");
+		var charts = urlParams.get('ch').split(",");
+		if (charts == "m") {n_regions = 12} else {n_regions = 8};
+
+		// var incentives = urlParams.get('alpha').split(",");
 
 		TimeMe.initialize({
 			currentPageName: "test-1", // current page
@@ -87,7 +90,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
+					<div class="col-lg-2 col-sm-3">
 						<div class = "question-container" id = "opt-1">
 							<p class="region-label">Region 1</p>
 						</div>
@@ -112,7 +115,7 @@
 							<p class="region-label">Region 5</p>
 						</div>
 					</div>
-					<div class="col-lg-2 col-sm-3 col-lg-offset-1">
+					<div class="col-lg-2 col-sm-3">
 						<div class = "question-container" id = "opt-6">
 							<p class="region-label">Region 6</p>
 						</div>
@@ -137,6 +140,16 @@
 							<p class="region-label">Region 10</p>
 						</div>
 					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-11">
+							<p class="region-label">Region 11</p>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<div class = "question-container" id = "opt-12">
+							<p class="region-label">Region 12</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -152,7 +165,7 @@
 <script type="text/javascript">
 	var selected = [];
 
-	var img_order = [...Array(10).keys()].map( i => ++i );
+	var img_order = [...Array(12).keys()].map( i => ++i );
 	// var i_level = Math.floor(Math.random() * levels.length);
 
 	url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/example/profits-t0-p0.5-";
@@ -167,6 +180,8 @@
 	$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url + img_order[7] + ".png");
 	$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url + img_order[8] + ".png");
 	$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + img_order[9] + ".png");
+	$("div#opt-11").append('<img class = "question-graphic">').children().attr("src", url + img_order[10] + ".png");
+	$("div#opt-12").append('<img class = "question-graphic">').children().attr("src", url + img_order[11] + ".png");
 
 	$(function() {
 		$('.question-container').hover(function() {
@@ -201,7 +216,7 @@
 		// Time spent on page
 		var t = Math.round(TimeMe.getTimeOnCurrentPageInSeconds() * 1000) / 1000;
 
-		window.location.href = 'test-2.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&alpha='+incentives+'&selected='+selected+'';
+		window.location.href = 'test-2.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&ch='+charts+'&selected='+selected+'';
 	}
 </script>
 </html>

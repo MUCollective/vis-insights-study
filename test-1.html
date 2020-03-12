@@ -59,7 +59,7 @@
 
 						<div class="row">
 							<div class="col-sm-12">
-								<p><img class="vis-desc" src="images/ci_calc_plot.png" align="right"/>You are a manager supervising the sales of a group of stores across 10 regions. Each region has 200 stores. <span class="highlight2">Your job is to make judgment calls now and pick out the promising regions where the average store is making a profit</span> (profit > 0). So far, however, you've only received sales data for 20 random stores (out of 200) in each region. To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots, like the ones shown on the right.
+								<p><img class="vis-desc" src="images/ci_calc_plot.png" align="right"/>You are a manager supervising the sales of a group of stores across <span id = "nregions">TODO</span> regions. Each region has 200 stores. <span class="highlight2">Your job is to make judgment calls now and pick out the promising regions where the average store is making a profit</span> (profit > 0). So far, however, you've only received sales data for 20 random stores (out of 200) in each region. To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots, like the ones shown on the right.
 								</p><br>
 								<p>Keep in mind that each graph only show sales data from the 20 random stores, out of the  200 stores in each region. So even if the average store is making profit in the graph, the other stores in the region might be loosing a lot of money. It is up to you to assess if the <b>all</b> the stores in the region are making profits on average.
 								</p>
@@ -166,6 +166,9 @@
 	var selected = [];
 
 	var img_order = [...Array(12).keys()].map( i => ++i );
+	var n_regions = 12;
+	$("span#nregions").text(n_regions);
+
 	// var i_level = Math.floor(Math.random() * levels.length);
 
 	url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/example/profits-t0-p0.5-";

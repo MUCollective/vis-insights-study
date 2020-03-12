@@ -33,31 +33,32 @@ page_setup = function(count, prev, payout) {
 	$("span#fp-val").text("" + Math.round(((1-alpha)/alpha) * 20) + " points");
 	// the payoff matrix images/payoff_5.png
 	$("img#payoff-img").attr("src", "images/payoff_" + (alpha*100) + ".png"); // incentives[cond_idx] + ".png");
+	if (conditions[cond_idx].slice(0,4) == "hops") { extension = ".gif" } else { extension = ".png" }
 
 	if (n_regions == 12){
 		url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/"+ conditions[cond_idx] +"/12-regions/profits-t"+ trial_order[trial_idx] + "-p";
-		$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[0] + ".png");
-		$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[1] + ".png");
-		$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[2] + ".png");
-		$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[3] + ".png");
-		$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[4] + ".png");
-		$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[5] + ".png");
-		$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[6] + ".png");
-		$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[7] + ".png");
-		$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[8] + ".png");
-		$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[9] + ".png");
-		$("div#opt-11").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[10] + ".png");
-		$("div#opt-12").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[11] + ".png");
+		$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[0] + extension);
+		$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[1] + extension);
+		$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[2] + extension);
+		$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[3] + extension);
+		$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[4] + extension);
+		$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[5] + extension);
+		$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[6] + extension);
+		$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[7] + extension);
+		$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[8] + extension);
+		$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[9] + extension);
+		$("div#opt-11").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[10] + extension);
+		$("div#opt-12").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[11] + extension);
 	} else {
 		url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/"+ conditions[cond_idx] +"/8-regions/profits-t"+ trial_order[trial_idx] + "-p";
-		$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[0] + ".png");
-		$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[1] + ".png");
-		$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[2] + ".png");
-		$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[3] + ".png");
-		$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[4] + ".png");
-		$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[5] + ".png");
-		$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[6] + ".png");
-		$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[7] + ".png");
+		$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[0] + extension);
+		$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[1] + extension);
+		$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[2] + extension);
+		$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[3] + extension);
+		$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[4] + extension);
+		$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[5] + extension);
+		$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[6] + extension);
+		$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[7] + extension);
 
 		$("div#opt-1").parent().addClass("col-lg-offset-2");
 		$("div#opt-5").parent().addClass("col-lg-offset-2");

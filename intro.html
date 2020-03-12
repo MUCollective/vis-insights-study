@@ -65,16 +65,19 @@
 					<div class="col-lg-10 col-lg-offset-1">
 						<h2 class="margin-top-md">Visualization Insights study</h2>
 					</div>
+
+					<!-- Description for confidence intervals -->
 					<div class="col-lg-10 col-lg-offset-1">
 						<div class="condition-intro" id="ci">
 							<p><img class="vis-desc" src="images/ci_calc_plot.png" align="right"/>
 								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
 								You've only received sales data for 20 random stores (out of 200) in each region.
 								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots. Each plot shows the estimated average profit (in thousands of dollars) for a region based on the 20-store sample, and some uncertainty around the estimate (95% confidence interval).
-								<!-- Using statistics, we calculate and show, for 20 stores which were randomly selected from each region, the mean profit (in thousand $) and a range of uncertainty around this estimate of the mean profit (95% confidence interval), along the y-axis. In this block, each visualization will present the mean and the 95% confidence interval for the mean of the 20 stores. -->
 							</p>
 						</div>
 					</div>
+
+					<!-- Description for raw data -->
 					<div class="col-lg-10 col-lg-offset-1">
 						<div class="condition-intro" id="raw-data">
 							<p><img class="vis-desc" src="images/rawdata_calc_plot.png" align="right"/>
@@ -85,6 +88,8 @@
 							</p>
 						</div>
 					</div>
+
+					<!-- Description for Probability density plot -->
 					<div class="col-lg-10 col-lg-offset-1">
 						<div class="condition-intro" id="halfeye">
 							<p><img class="vis-desc" src="images/pdf_calc_plot.png" align="right"/>
@@ -92,11 +97,52 @@
 								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
 								You've only received sales data for 20 random stores (out of 200) in each region.
 								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots. Each plot shows the estimated average profit (in thousands of dollars) for a region based on the 20-store sample, and some uncertainty around the estimate (95% confidence interval). In addition, the grey blob shows the density of the average estimate: the blob is wider around estimates of profits that are more likely.
-
-								<!-- Using statistics, we calculate and show, for 20 stores which were randomly selected from each region, the mean profit (in thousand $) and a range of uncertainty around this estimate of the mean profit (95% confidence interval), along the y-axis. We also show the density: in the graph, the width corresponds to more likely values of the mean. In this block, each visualization will present the mean, 95% confidence interval and the density, for the mean of the 20 stores. -->
 							</p>
 						</div>
 					</div>
+
+					<!-- Description for Probability density plot -->
+					<div class="col-lg-10 col-lg-offset-1">
+						<div class="condition-intro" id="dotplot">
+							<p><img class="vis-desc" src="images/dotplot_calc_plot.png" align="right"/>
+								<!-- Your job is to pick out the promising regions where the average store is making a profit (profit > 0).  -->
+								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
+								You've only received sales data for 20 random stores (out of 200) in each region.
+								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots. Each plot shows possible estimated values of the average profit (in thousands of dollars) for a region based on the 20-store sample. There is some uncertainty around the estimate of the average profit, and each dot can be considered as a possible value for the average profit. In other words, in the figure on the right, there is a <sup>11</sup>&frasl;<sub>20</sub> chance that the average profit is between 0.5 and 1.5 (in thousands of dollars), but there is also a <sup>1</sup>&frasl;<sub>20</sub> chance that the average profit could be around 2 (in thousands of dollars).
+							</p>
+						</div>
+					</div>
+
+					<!-- Description for HOPs (draws from the quantile distribution) -->
+					<div class="col-lg-10 col-lg-offset-1">
+						<div class="condition-intro" id="hops-1">
+							<p><img class="vis-desc-alt" src="images/hops2_calc_plot.png" align="right"/>
+								<img class="hops-position" src="images/hops2.gif" align="right"/>
+								<!-- Your job is to pick out the promising regions where the average store is making a profit (profit > 0).  -->
+								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
+								You've only received sales data for 20 random stores (out of 200) in each region.
+								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots. Each plot shows possible estimated values of the average profit (in thousands of dollars) for a region based on the 20-store sample. There is some uncertainty around the estimate of the average profit, and so the analyst decide to animate the 20 possible values of the average profit.
+
+								each dot can be considered as a possible value for the average profit. In other words, in the figure on the right, there is a <sup>11</sup>&frasl;<sub>20</sub> chance that the average profit is between 0.5 and 1.5 (in thousands of dollars), but there is also a <sup>1</sup>&frasl;<sub>20</sub> chance that the average profit could be around 2 (in thousands of dollars).
+							</p>
+						</div>
+					</div>
+
+					<!-- Description for HOPs (sampling with replacement from the data) -->
+					<div class="col-lg-10 col-lg-offset-1">
+						<div class="condition-intro" id="hops-2">
+							<p><img class="vis-desc-alt" src="images/hops2_calc_plot.png" align="right"/>
+								<img class="hops-position" src="images/hops2.gif" align="right"/>
+								<!-- Your job is to pick out the promising regions where the average store is making a profit (profit > 0).  -->
+								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
+								You've only received sales data for 20 random stores (out of 200) in each region.
+
+								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots like the one to the right. The points show the profits made by the twenty-store sample in a given region. Keep in mind that there are 200 stores in total in each region, so your data are incomplete. Hence, the analyst animated to show what hypothetical data would look like based on the available information.
+							</p>
+						</div>
+					</div>
+
+
 					<div class="col-lg-10 col-lg-offset-1">
 						<div class="row">
 							<div class="col-sm-12">

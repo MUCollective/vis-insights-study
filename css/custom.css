@@ -211,6 +211,11 @@ img.vis-desc {
     margin: 0px 0px 60px 60px !important;
 }
 
+img.vis-desc-alt {
+    max-width: 420px;
+    margin: 0px 0px 60px 0px !important;
+}
+
 .correct-label {
 	font-size: 48px !important;
 	color: green !important;
@@ -313,6 +318,14 @@ div#close-popup {
 	display: block;
 	margin-left: 0px !important;
 	margin-right: 0px !important;
+}
+
+.hops-position {
+	position: relative;
+	top: 0px;
+	left: 285px;
+	width: 113px;
+	margin-bottom: 60px;
 }
 
 

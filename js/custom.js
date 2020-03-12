@@ -35,6 +35,8 @@ page_setup = function(count, prev, payout) {
 	$("img#payoff-img").attr("src", "images/payoff_" + (alpha*100) + ".png"); // incentives[cond_idx] + ".png");
 	if (conditions[cond_idx].slice(0,4) == "hops") { extension = ".gif" } else { extension = ".png" }
 
+	$("span#nregion").text(n_regions);
+
 	if (n_regions == 12){
 		url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/"+ conditions[cond_idx] +"/12-regions/profits-t"+ trial_order[trial_idx] + "-p";
 		$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url + "0.5-" + img_order[0] + extension);
@@ -178,6 +180,3 @@ function update_trial_page(c, responses, time) {
 		$("div#popup").show();
 	});
 }
-
-
-

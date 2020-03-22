@@ -107,8 +107,8 @@
 							<p><img class="vis-desc" src="images/dotplot_calc_plot.png" align="right"/>
 								<!-- Your job is to pick out the promising regions where the average store is making a profit (profit > 0).  -->
 								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
-								You've only received sales data for 20 random stores (out of 200) in each region.
-								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots. Each plot shows possible estimated values of the average profit (in thousands of dollars) for a region based on the 20-store sample. There is some uncertainty around the estimate of the average profit, and each dot can be considered as a possible value for the average profit. In other words, in the figure on the right, there is a <sup>11</sup>&frasl;<sub>20</sub> chance that the average profit is between 0.5 and 1.5 (in thousands of dollars), but there is also a <sup>1</sup>&frasl;<sub>20</sub> chance that the average profit could be around 2 (in thousands of dollars).
+								You've only received sales data for 20 random stores (out of 200) in each region. To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created dot plots. Each big blue dot shows a possible average profit for a region (an educated guess) based on your partial data. Since there is uncertainty around the profit values, your analyst plotted twenty dots/guesses.
+								<!-- For example, in the figure on the right, there is a <sup>11</sup>&frasl;<sub>20</sub> chance that the average profit is between 0.5 and 1.5 (in thousands of dollars), but there is also a <sup>1</sup>&frasl;<sub>20</sub> chance that the average profit could be around 2 (in thousands of dollars). -->
 							</p>
 						</div>
 					</div>
@@ -147,7 +147,8 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<h3>Reward structure</h3>
-								<p><img id="payoff-img" src="images/payoff_5.png" align="right">Please read the incentive structure carefully as it will change for every block of trial
+								<p><img id="payoff-img" src="images/payoff_5.png" align="right">
+									<!-- Please read the incentive structure carefully as it will change for every block of trial -->
 								<ul>
 									<li>If you <b>click</b> on a region, and that region <b>does have</b> a profit greater than zero, on average, you will receive 20 points. <!-- This is a <i>True Positive</i>.--></li>
 									<li>If you <b>click</b> on a region, and that region <b>does not</b> have a profit greater than zero, on average, you will lose <span class="highlight" id="fp-val">380 points.</span><!--  This is a <i>False Positive</i>. --></li>

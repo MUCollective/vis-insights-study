@@ -10,9 +10,9 @@ function shuffle(array) {
 	return array;
 }
 
-var n = 30;
+var n = 35;
 var b = [...Array(n).keys()].map( i => ++i );
-var trial_order = b.map( i => (i * mod) % (n+1));
+var trial_order = b.map( i => (i * mod) % (36));
 var selected = [];
 
 page_setup = function(count, prev, payout) {
@@ -22,7 +22,9 @@ page_setup = function(count, prev, payout) {
 	total_pay = payout;
 
 	trial_idx = count % n;
+	console.log(trial_idx);
 	cond_idx = Math.floor(count / n);
+
 	if (charts[cond_idx] == "m") {n_regions = 12} else {n_regions = 8};
 
 	var img_order = shuffle([...Array(n_regions).keys()].map( i => ++i ));
@@ -72,17 +74,21 @@ page_setup = function(count, prev, payout) {
 		$("div#opt-12").hide();
 	}
 
-	var cond_idx = Math.floor(count / n);
-	var trial_idx = count  % n;
+	// var cond_idx = Math.floor(count / n);
+	// var trial_idx = count  % n;
 
 	prev_pay = (prev['tp'] + prev['tn'] + prev['fn']) * 20 + prev['fp'] * Math.round(((1-alpha)/alpha) * 20);
-	if (count > 0 & prev != "NA") {
+	if (trial_idx > 0 & prev != "NA") {
 		$("span.prev-tp").html("&#x2705; Selected, profitable: " + prev['tp'] + ";");
 		$("span.prev-tn").html("&#x2705; Didn't select, not profitable: " + prev['tn'] + ";");
 		$("span.prev-fp").html("&#10060 Selected, not profitable: " + -1*prev['fp'] + ";");
 		$("span.prev-fn").html("&#10060 Didn't select, profitable: " + -1*prev['fn']);
 		$("span#payoff-prev").html("<i>Payout from previous trial: </i>" + prev_pay);
 		$("span#payoff").html("<i>Total Payout:</i> " + total_pay);
+	}
+
+	if (trial_idx >= 7) {
+		$(".prev-trial-review").hide();
 	}
 
 	$("div#submit-btn").on('click', submitResponse);
@@ -152,6 +158,8 @@ function update_trial_page(c, responses, time) {
 	var submit_response_url = 'https://w8vewq61bf.execute-api.us-east-2.amazonaws.com/prod/recordResponses?PROLIFIC_PID='+
 	prolific_PID+'&SESSION_ID='+session_ID+'&responses='+responses+'&vis='+conditions[prev_c_idx]+'&nregions='+n_regions+
 	'&trial='+trial_order[prev_t_idx]+'&t='+time+'&trials_count='+c+'';
+
+	// console.log(submit_response_url)
 
 	$.get(submit_response_url).done(function (data) {
 		to_fwd = window.btoa( [data['count'], Object.values(data['prev']), data['payout']].flat() );

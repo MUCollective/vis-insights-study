@@ -172,9 +172,9 @@
 		return array;
 	}
 
-	var n = 30;
+	var n = 35;
 	var b = [...Array(n).keys()].map( i => ++i );
-	var trial_order = b.map( i => (i * mod) % (n+1));
+	var trial_order = b.map( i => (i * mod) % (37));
 	var img_order = shuffle([...Array(10).keys()].map( i => ++i ));
 	var selected = [];
 

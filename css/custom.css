@@ -208,7 +208,7 @@ img#payoff-img {
 
 img.vis-desc {
     max-width: 420px;
-    margin: 0px 0px 60px 60px !important;
+    margin: -32px 0px 60px 60px !important;
 }
 
 img.vis-desc-alt {
@@ -326,6 +326,11 @@ div#close-popup {
 	left: 285px;
 	width: 113px;
 	margin-bottom: 60px;
+}
+
+#payoff-note {
+	font-size: 1.1em;
+	color: #C0352A;
 }
 
 

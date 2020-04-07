@@ -65,9 +65,20 @@
 					<div class="col-lg-10 col-lg-offset-1">
 						<h2 class="margin-top-md">Visualization Insights study</h2>
 					</div>
+				</div>
 
 					<!-- Description for confidence intervals -->
+				<div class="row">
 					<div class="col-lg-10 col-lg-offset-1">
+						<h4 class="prev-trial-review margin-top-sm">Review</h4>
+						<p class = "prev-trial-review">
+							<span id="payoff">Total Payoff: 0</span><br>
+						</p>
+					</div>
+				</div>
+				<div class = "row">
+					<div class="col-lg-10 col-lg-offset-1">
+						<h4 class="prev-trial-review margin-top-sm">Introduction</h4>
 						<div class="condition-intro" id="ci">
 							<p><img class="vis-desc" src="images/ci_calc_plot.png" align="right"/>
 								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
@@ -108,7 +119,7 @@
 								<!-- Your job is to pick out the promising regions where the average store is making a profit (profit > 0).  -->
 								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
 								You've only received sales data for 20 random stores (out of 200) in each region.
-								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots. Each plot shows possible estimated values of the average profit (in thousands of dollars) for a region based on the 20-store sample. There is some uncertainty around the estimate of the average profit, and each dot can be considered as a possible value for the average profit. In other words, in the figure on the right, there is a <sup>11</sup>&frasl;<sub>20</sub> chance that the average profit is between 0.5 and 1.5 (in thousands of dollars), but there is also a <sup>1</sup>&frasl;<sub>20</sub> chance that the average profit could be around 2 (in thousands of dollars).
+								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots. Each plot shows 20 equally likely estimated values of the average profit (in thousands of dollars) for a region based on the 20-store sample. For example, the figure on the right shows that there is a <sup>11</sup>&frasl;<sub>20</sub> chance that the average profit is between -0.2 and -1.0 (in thousands of dollars), but there is also a <sup>2</sup>&frasl;<sub>20</sub> chance that the average profit could be less than -1.0 (in thousands of dollars).
 							</p>
 						</div>
 					</div>
@@ -116,14 +127,12 @@
 					<!-- Description for HOPs (draws from the quantile distribution) -->
 					<div class="col-lg-10 col-lg-offset-1">
 						<div class="condition-intro" id="hops-1">
-							<p><img class="vis-desc-alt" src="images/hops2_calc_plot.png" align="right"/>
-								<img class="hops-position" src="images/hops2.gif" align="right"/>
+							<p><img class="vis-desc-alt" src="images/hops1_calc_plot.png" align="right"/>
+								<img class="hops-position" src="images/hops1.gif" align="right"/>
 								<!-- Your job is to pick out the promising regions where the average store is making a profit (profit > 0).  -->
 								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
 								You've only received sales data for 20 random stores (out of 200) in each region.
 								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots. Each plot shows possible estimated values of the average profit (in thousands of dollars) for a region based on the 20-store sample. There is some uncertainty around the estimate of the average profit, and so the analyst decide to animate the 20 possible values of the average profit.
-
-								each dot can be considered as a possible value for the average profit. In other words, in the figure on the right, there is a <sup>11</sup>&frasl;<sub>20</sub> chance that the average profit is between 0.5 and 1.5 (in thousands of dollars), but there is also a <sup>1</sup>&frasl;<sub>20</sub> chance that the average profit could be around 2 (in thousands of dollars).
 							</p>
 						</div>
 					</div>
@@ -137,7 +146,7 @@
 								This is the <span class="block-num">first</span> block of trials. Each block consists of 30 trials. <br><br>
 								You've only received sales data for 20 random stores (out of 200) in each region.
 
-								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots like the one to the right. The points show the profits made by the twenty-store sample in a given region. Keep in mind that there are 200 stores in total in each region, so your data are incomplete. Hence, the analyst animated to show what hypothetical data would look like based on the available information.
+								To help you evaluate the regional profits with incomplete data, your business analyst used statistics and created plots like the one to the right. The points show the profits made by the twenty-store sample in a given region. Keep in mind that there are 200 stores in total in each region, so your data are incomplete. Hence, the analyst animated to show what hypothetical profits for 20 stores would look like based on the available information.
 							</p>
 						</div>
 					</div>
@@ -171,9 +180,9 @@
 	</div>
 </body>
 <script type="text/javascript">
-	var n = 30;
+	var n = 35;
 	var b = [...Array(n).keys()].map( i => ++i );
-	var trial_order = b.map( i => (i * mod) % (n+1));
+	var trial_order = b.map( i => (i * mod) % 36);
 	var selected = [];
 
 	trial_idx = count % n;
@@ -189,6 +198,11 @@
 	$("img#payoff-img").attr("src", "images/payoff_"+ (alpha * 100) +".png");
 	$("div.condition-intro").hide();
 	$("div#"+cond).show();
+
+	var total_pay = cumulative_payout;
+	if (count > 0 & prev != "NA") {
+		$("span#payoff").html("<i>Total Payout:</i> " + total_pay);
+	}
 
 	$("div#submit-btn").on('click', submitResponse);
 

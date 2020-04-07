@@ -141,15 +141,15 @@
 					<div class="col-lg-2 col-sm-3">
 						<div class = "question-container" id = "opt-11">
 							<p class="region-label">Region 11</p>
-							<i class="material-icons correct-label" id="correct-10">check_circle</i>
-							<i class="material-icons incorrect-label" id="incorrect-10">cancel</i>
+							<i class="material-icons correct-label" id="correct-11">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-11">cancel</i>
 						</div>
 					</div>
 					<div class="col-lg-2 col-sm-3">
 						<div class = "question-container" id = "opt-12">
 							<p class="region-label">Region 12</p>
-							<i class="material-icons correct-label" id="correct-10">check_circle</i>
-							<i class="material-icons incorrect-label" id="incorrect-10">cancel</i>
+							<i class="material-icons correct-label" id="correct-12">check_circle</i>
+							<i class="material-icons incorrect-label" id="incorrect-12">cancel</i>
 						</div>
 					</div>
 				</div>
@@ -169,7 +169,7 @@
 	var img_order = [...Array(12).keys()].map(i => ++i);
 	$("p#trial-answers").text("You selected: " + responses + " (highlighted with blue borders)");
 
-	solution = [true, true, true, false, true, false, true, false, false, false, true, true];
+	solution = [false, true, true, false, false, true, true, false, false, false, true, false];
 	responses = responses.map( i => parseInt(i));
 	non_responses = [];
 	for (var i of Array(12).keys()) {
@@ -245,7 +245,6 @@
 	$("div#opt-12").append('<img class = "question-graphic">').children().attr("src", url + img_order[11] + ".png");
 
 	for (i in responses) {
-		console.log(i, responses)
 		$("div#opt-" + responses[i]).addClass("selected");
 	}
 

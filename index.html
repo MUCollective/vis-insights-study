@@ -35,7 +35,6 @@
 			return array;
 		}
 
-		var vis = ["ci", "ci"];
 		var charts = shuffle(["m", "f"]);
 
 		function uuidv4() {
@@ -91,6 +90,11 @@
 		// var study_ID = urlParams.get('STUDY_ID');
 		var session_ID = urlParams.get('SESSION_ID');
 		var t1 = urlParams.get('t');
+		// var vis = ["ci", "ci"];
+		var vis = urlParams.get('vis').split(","); // e.g. from prolific: &vis=ci
+		if(vis.length == 1){
+			vis = [vis, vis];
+		}
 	</script>
 </head>
 <body>

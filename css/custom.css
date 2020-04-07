@@ -41,7 +41,7 @@
 }
 
 .selected {
-	background: #3CA8FF; 
+	background: #3CA8FF;
 	color: #fff !important;
 }
 
@@ -301,7 +301,7 @@ div#close-popup {
 
 .prev-trial-label {
 	max-width: 108px;
-	float: left;	
+	float: left;
 }
 
 .prev-trial-info {
@@ -332,5 +332,3 @@ div#close-popup {
 	font-size: 1.1em;
 	color: #C0352A;
 }
-
-

@@ -206,9 +206,20 @@ img#payoff-img {
     margin: 0px 170px 0px 60px !important;
 }
 
+img#payoff-img-2 {
+    /*max-height: 360px;*/
+    max-width: 280px;
+    /*margin: 0px 170px 0px 60px !important;*/
+}
+
 img.vis-desc {
     max-width: 420px;
     margin: -32px 0px 60px 60px !important;
+}
+
+img.vis-desc-2 {
+    max-width: 450px;
+    margin: 0px 0px 0px -32px !important;
 }
 
 img.vis-desc-alt {

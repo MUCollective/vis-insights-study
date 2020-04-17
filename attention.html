@@ -29,7 +29,7 @@
 		var prolific_PID = urlParams.get('PROLIFIC_PID');
 		var session_ID = urlParams.get('SESSION_ID');
 		var mod = urlParams.get('modulo');
-		var conditions = urlParams.get('vis').split(",");
+		var conditions = urlParams.get('vis');
 		var prev_param = urlParams.get('ret');
 		var charts = urlParams.get('ch').split(",");
 		var n_regions;
@@ -172,6 +172,8 @@
 		return array;
 	}
 
+	console.log(conditions);
+
 	var n = 35;
 	var b = [...Array(n).keys()].map( i => ++i );
 	var trial_order = b.map( i => (i * mod) % (37));
@@ -184,18 +186,21 @@
 	var profit_str = "profit";
 	var url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/attention/profit-";
 
+	if ((conditions == "hops-1") || (conditions == "hops-2")) extension = ".gif"
+	else extension = ".png"
+
 	$("img#payoff-img").attr("src", "images/payoff_5.png");
 
-	$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url  + img_order[0] + ".png");
-	$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url  + img_order[1] + ".png");
-	$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url  + img_order[2] + ".png");
-	$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url  + img_order[3] + ".png");
-	$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url  + img_order[4] + ".png");
-	$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url  + img_order[5] + ".png");
-	$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url  + img_order[6] + ".png");
-	$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url  + img_order[7] + ".png");
-	$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url  + img_order[8] + ".png");
-	$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + img_order[9] + ".png");
+	$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url  + img_order[0] + "-" + conditions + extension);
+	$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url  + img_order[1] + "-" + conditions + extension);
+	$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url  + img_order[2] + "-" + conditions + extension);
+	$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url  + img_order[3] + "-" + conditions + extension);
+	$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url  + img_order[4] + "-" + conditions + extension);
+	$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url  + img_order[5] + "-" + conditions + extension);
+	$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url  + img_order[6] + "-" + conditions + extension);
+	$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url  + img_order[7] + "-" + conditions + extension);
+	$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url  + img_order[8] + "-" + conditions + extension);
+	$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + img_order[9] + "-" + conditions + extension);
 
 	$(function() {
 		$('.question-container').hover(function() {

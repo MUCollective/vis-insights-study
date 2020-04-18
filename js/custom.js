@@ -87,7 +87,7 @@ page_setup = function(count, prev, payout) {
 		$("span#payoff").html("<i>Total Payout:</i> " + total_pay);
 	}
 
-	if (trial_idx >= 7) {
+	if (trial_idx >= 5) {
 		$(".prev-trial-review").hide();
 	}
 

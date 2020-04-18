@@ -217,7 +217,7 @@
 	$(".question-container").click(function () {
 		$(this).toggleClass("selected");
 		var id_str = $(this).children().attr("src").split("-");
-		var id = id_str[id_str.length - 1].split(".")[0];
+		var id = id_str[id_str.length - 2].split(".")[0];
 
 		if (!selected.includes(id)) {
 			selected.push(id);

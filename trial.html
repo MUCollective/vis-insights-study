@@ -199,7 +199,14 @@
 <script type="text/javascript" src="js/custom.js"></script>
 <script type="text/javascript">
 	var conditions = urlParams.get('vis').split(",");
-	$("img.vis-desc-2").attr("src", "images/"+ conditions[1] +"_calc_plot.png");
+	var vis =  conditions[0];
+	if (vis != "hops-1" & vis!= "hops-2"){
+		$("img.vis-desc-2").attr("src", "images/"+ vis +"_calc_plot.png");
+	} else {
+		$("img.vis-desc-2").attr("src", "images/"+ vis +"_calc_plot.gif");
+
+	}
+
 </script>
 
 </html>

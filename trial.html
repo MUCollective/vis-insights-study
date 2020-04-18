@@ -54,8 +54,6 @@
 
 
 
-		// <img class="vis-desc-2" src="images/dotplot_calc_plot.png"/>
-		$("img.vis-desc-2").attr("src", "images/"+ conditions[1] +"_calc_plot.png");
 
 
 		TimeMe.initialize({
@@ -199,4 +197,9 @@
 	</div>
 </body>
 <script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript">
+	var conditions = urlParams.get('vis').split(",");
+	$("img.vis-desc-2").attr("src", "images/"+ conditions[1] +"_calc_plot.png");
+</script>
+
 </html>

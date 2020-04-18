@@ -65,7 +65,7 @@
 				<div class="row">
 					<div class="col-lg-10 col-lg-offset-1">
 						<h3 class="margin-top-md">Visualization Insights study</h3>
-            <p>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. You want to find out if the stores are making a profit in each region. However, you only have the data for 20 randomly selected stores from the 200 stores in each region. Below, we show the profit for these 20 stores. Click on which of these regions are making a profit. You can click on multiple stores.</p>
+            <!-- <p>You are supervising the sales of a group of stores across 10 regions. Each region has 200 stores. You want to find out if the stores are making a profit in each region. However, you only have the data for 20 randomly selected stores from the 200 stores in each region. Below, we show the profit for these 20 stores. Click on which of these regions are making a profit. You can click on multiple stores.</p> -->
 						<p>Pssst, this trial is meant to make sure that you have been paying attention. Simply select all regions to pass this attention check.</p>
 
 						<!-- <h4 class="margin-top-md">Trial No. <span id="trial-num">1</span></h4>
@@ -185,22 +185,23 @@
 
 	var profit_str = "profit";
 	var url = "https://raw.githubusercontent.com/MUCollective/vis-insight-reliability/stimuli/plots/attention/profit-";
-
-	if ((conditions == "hops-1") || (conditions == "hops-2")) extension = ".gif"
+	var conditions = urlParams.get('vis').split(",");
+	var vis = conditions[0];
+	if ((vis == "hops-1") || (vis == "hops-2")) extension = ".gif"
 	else extension = ".png"
 
 	$("img#payoff-img").attr("src", "images/payoff_5.png");
 
-	$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url  + img_order[0] + "-" + conditions + extension);
-	$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url  + img_order[1] + "-" + conditions + extension);
-	$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url  + img_order[2] + "-" + conditions + extension);
-	$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url  + img_order[3] + "-" + conditions + extension);
-	$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url  + img_order[4] + "-" + conditions + extension);
-	$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url  + img_order[5] + "-" + conditions + extension);
-	$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url  + img_order[6] + "-" + conditions + extension);
-	$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url  + img_order[7] + "-" + conditions + extension);
-	$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url  + img_order[8] + "-" + conditions + extension);
-	$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + img_order[9] + "-" + conditions + extension);
+	$("div#opt-1").append('<img class = "question-graphic">').children().attr("src", url  + img_order[0] + "-" + vis + extension);
+	$("div#opt-2").append('<img class = "question-graphic">').children().attr("src", url  + img_order[1] + "-" + vis + extension);
+	$("div#opt-3").append('<img class = "question-graphic">').children().attr("src", url  + img_order[2] + "-" + vis + extension);
+	$("div#opt-4").append('<img class = "question-graphic">').children().attr("src", url  + img_order[3] + "-" + vis + extension);
+	$("div#opt-5").append('<img class = "question-graphic">').children().attr("src", url  + img_order[4] + "-" + vis + extension);
+	$("div#opt-6").append('<img class = "question-graphic">').children().attr("src", url  + img_order[5] + "-" + vis + extension);
+	$("div#opt-7").append('<img class = "question-graphic">').children().attr("src", url  + img_order[6] + "-" + vis + extension);
+	$("div#opt-8").append('<img class = "question-graphic">').children().attr("src", url  + img_order[7] + "-" + vis + extension);
+	$("div#opt-9").append('<img class = "question-graphic">').children().attr("src", url  + img_order[8] + "-" + vis + extension);
+	$("div#opt-10").append('<img class = "question-graphic">').children().attr("src", url + img_order[9] + "-" + vis + extension);
 
 	$(function() {
 		$('.question-container').hover(function() {

@@ -22,14 +22,12 @@ page_setup = function(count, prev, payout) {
 	total_pay = payout;
 
 	trial_idx = count % n;
-	console.log(trial_idx);
 	cond_idx = Math.floor(count / n);
 
 	if (charts[cond_idx] == "m") {n_regions = 12} else {n_regions = 8};
 
 	var img_order = shuffle([...Array(n_regions).keys()].map( i => ++i ));
 
-	console.log(count, charts, n_regions, img_order);
 	alpha = 0.05; // parseInt(incentives[cond_idx])/100;
 
 	$("span#fp-val").text("" + Math.round(((1-alpha)/alpha) * 20) + " points");
@@ -125,7 +123,6 @@ $(".question-container").click(function () {
 		var idx = selected.indexOf(id);
 		if (idx !== -1) selected.splice(idx, 1);
 	}
-	console.log(selected);
 });
 
 // send response to DB

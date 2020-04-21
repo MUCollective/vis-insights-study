@@ -52,6 +52,10 @@
 		}, {});
 		var cumulative_payout = prev_trial[5];
 
+
+
+
+
 		TimeMe.initialize({
 			currentPageName: "trial", // current page
 			idleTimeoutInSeconds: 120, // stop recording time due to inactivity
@@ -63,7 +67,7 @@
 		<div class="container-fluid">
 			<div id="popup">
 				<div class="error-msg">
-					<p>We encountered an error in recording your responses.<br>Please close this and try again</p>
+					<p>Hmmm something went wrong.<br>Please click "Close" and try submitting again.<br>Do not go back or restart.</p>
 					<div id="close-popup">Close</div>
 				</div>
 				<div class="overlay"></div>
@@ -193,4 +197,16 @@
 	</div>
 </body>
 <script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript">
+	var conditions = urlParams.get('vis').split(",");
+	var vis =  conditions[0];
+	if (vis != "hops-1" & vis!= "hops-2"){
+		$("img.vis-desc-2").attr("src", "images/"+ vis +"_calc_plot.png");
+	} else {
+		$("img.vis-desc-2").attr("src", "images/"+ vis +"_calc_plot.gif");
+
+	}
+
+</script>
+
 </html>

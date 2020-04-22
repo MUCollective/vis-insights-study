@@ -207,13 +207,13 @@
 
 	}
 
-	// Disabling the return to this page from the survey
-    // $(document).ready(function() {
-    //     function disableBack() { window.history.forward() }
+	Disabling the return to this page from the survey
+    $(document).ready(function() {
+        function disableBack() { window.history.forward() }
 
-    //     window.onload = disableBack();
-    //     window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
-    // });
+        window.onload = disableBack();
+        window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+    });
 </script>
 
 <script language="JavaScript"><!--

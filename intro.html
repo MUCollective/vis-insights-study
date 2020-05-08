@@ -239,5 +239,13 @@
 			window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&ch='+charts+'&ret='+prev_param+'';;
 		}
 	}
+	
+	// Disabling the return to this page from the survey
+	$(document).ready(function() {
+			function disableBack() { window.history.forward() }
+			window.onload = disableBack();
+			window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+	});
+
 </script>
 </html>

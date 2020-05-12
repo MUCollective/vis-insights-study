@@ -216,16 +216,18 @@
 
 	$(".question-container").click(function () {
 		$(this).toggleClass("selected");
-		var id_str = $(this).children().attr("src").split("-");
+		// var id_str = $(this).children().attr("src").split("-");
 		// this will split wrong with the hops condition
-		var id = id_str[id_str.length - 2].split(".")[0];
+		// var id = id_str[id_str.length - 2].split(".")[0];
+		var id_str = $(this).children().attr("src");
+		var id = id_str.split("/")[8].split("-")[1];
 
-		// if (!selected.includes(id)) {
+		if (!selected.includes(id)) {
 			selected.push(id);
-		// } else {
-		// 	var idx = selected.indexOf(id);
-		// 	if (idx !== -1) selected.splice(idx, 1);
-		// }
+		} else {
+			var idx = selected.indexOf(id);
+			if (idx !== -1) selected.splice(idx, 1);
+		}
 	});
 
 	$("div#submit-btn").on('click', submitResponse);

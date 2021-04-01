@@ -41,6 +41,8 @@
 			prev_trial = JSON.parse("[" + window.atob( prev_param ) + "]");
 		}
 
+		prev_trial = 1;
+
 		console.log(prev_trial);
 
 		zip = zip = (...rows) => [...rows[0]].map((_,c) => rows.map(row => row[c]));
@@ -236,7 +238,7 @@
 	    if (selected.length == 10){
 	      // correct
 			if (((trial_idx + 1) % n) == 0) {
-				window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&ch='+charts+'&ret='+prev_param+'';
+				window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&ch='+charts+prev_param+'';
 			} else {
 				window.location.href = 'trial.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&ch='+charts+'&ret='+prev_param+'';
 			}

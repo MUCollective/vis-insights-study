@@ -218,8 +218,11 @@
 
 	$(".question-container").click(function () {
 		$(this).toggleClass("selected");
-		var id_str = $(this).children().attr("src").split("-");
-		var id = id_str[id_str.length - 2].split(".")[0];
+		// var id_str = $(this).children().attr("src").split("-");
+		// this will split wrong with the hops condition
+		// var id = id_str[id_str.length - 2].split(".")[0];
+		var id_str = $(this).children().attr("src");
+		var id = id_str.split("/")[8].split("-")[1];
 
 		if (!selected.includes(id)) {
 			selected.push(id);
@@ -235,7 +238,7 @@
 	// send response to DB
 	function submitResponse() {
 
-	    if (selected.length == 10){
+	    if (selected.length >= 10){
 	      // correct
 			if (((trial_idx + 1) % n) == 0) {
 				window.location.href = 'intro.html?PROLIFIC_PID='+prolific_PID+'&SESSION_ID='+session_ID+'&modulo='+mod+'&vis='+conditions+'&ch='+charts+prev_param+'';
@@ -256,6 +259,13 @@
 			alert("You have indicated certain regions as profitable. Please click on the submit button")
 		}
 	}
+
+	// Disabling the return to this page from the survey
+	$(document).ready(function() {
+			function disableBack() { window.history.forward() }
+			window.onload = disableBack();
+			window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+	});
 
 </script>
 </html>
